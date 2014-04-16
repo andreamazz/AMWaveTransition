@@ -1,0 +1,139 @@
+//
+//  AMWaveTransitioning.m
+//  AMWaveTransitioning
+//
+//  Created by Andrea on 11/04/14.
+//  Copyright (c) 2014 Fancy Pixel. All rights reserved.
+//
+
+#import "AMWaveTransition.h"
+
+@implementation AMWaveTransition
+
+#define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
+
+#define DURATION    0.5
+#define MAX_DELAY   0.25
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        NSAssert(NO, @"Use initWithOperation: or transitionWithOperation: instead");
+    }
+    return self;
+}
+
++ (instancetype)transitionWithOperation:(UINavigationControllerOperation)operation
+{
+    return [[self alloc] initWithOperation:operation];
+}
+
+- (instancetype)initWithOperation:(UINavigationControllerOperation)operation
+{
+    self = [super init];
+    if (self) {
+        _operation = operation;
+        _transitionType = AMWaveTransitionTypeNervous;
+    }
+    return self;
+}
+
+- (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
+{
+    return DURATION + MAX_DELAY;
+}
+
+- (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext
+{
+    UIViewController<AMWaveTransitioning> *fromVC;
+    if ([[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey] isKindOfClass:[UINavigationController class]]) {
+        fromVC = (UIViewController<AMWaveTransitioning>*)([(UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey] visibleViewController]);
+    } else {
+        fromVC = (UIViewController<AMWaveTransitioning>*)([transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey]);
+    }
+    
+    UIViewController<AMWaveTransitioning> *toVC;
+    if ([[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey] isKindOfClass:[UINavigationController class]]) {
+        toVC = (UIViewController<AMWaveTransitioning>*)([(UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey] visibleViewController]);
+    } else {
+        toVC = (UIViewController<AMWaveTransitioning>*)([transitionContext viewControllerForKey:UITransitionContextToViewControllerKey]);
+    }
+	
+    CGRect source = [transitionContext initialFrameForViewController:fromVC];
+    [[transitionContext containerView] addSubview:toVC.view];
+    
+    CGFloat delta;
+    if (self.operation == UINavigationControllerOperationPush) {
+        delta = SCREEN_WIDTH;
+    } else {
+
+        delta = -SCREEN_WIDTH;
+    }
+    
+    // Move the destination in place
+    toVC.view.frame = source;
+    // And kick it aside
+    toVC.view.transform = CGAffineTransformMakeTranslation(SCREEN_WIDTH, 0);
+    
+    // First step is required to trigger the load of the visible cells.
+    [UIView animateWithDuration:0 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        //		toVC.view.transform = CGAffineTransformMakeTranslation(SCREEN_WIDTH, 0);
+    } completion:^(BOOL finished) {
+        
+        // Plain animation that moves the destination controller in place. Once it's done it will notify the transition context
+        if (self.operation == UINavigationControllerOperationPush) {
+            [toVC.view setTransform:CGAffineTransformMakeTranslation(1, 0)];
+			[UIView animateWithDuration:DURATION + MAX_DELAY delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+				[toVC.view setTransform:CGAffineTransformIdentity];
+			} completion:^(BOOL finished) {
+				[transitionContext completeTransition:YES];
+			}];
+        } else {
+            [fromVC.view setTransform:CGAffineTransformMakeTranslation(1, 0)];
+            [toVC.view setTransform:CGAffineTransformIdentity];
+			[UIView animateWithDuration:DURATION + MAX_DELAY delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+				[fromVC.view setTransform:CGAffineTransformMakeTranslation(SCREEN_WIDTH, 0)];
+			} completion:^(BOOL finished) {
+				[transitionContext completeTransition:YES];
+				[fromVC.view removeFromSuperview];
+			}];
+        }
+        
+        // Animates the cells of the starting view controller
+        [[fromVC visibleCells] enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(UITableViewCell *obj, NSUInteger idx, BOOL *stop) {
+            NSTimeInterval delay = ((float)idx / (float)[[fromVC visibleCells] count]) * MAX_DELAY;
+            void (^animation)() = ^{
+                [obj setTransform:CGAffineTransformMakeTranslation(-delta, 0)];
+                [obj setAlpha:0];
+            };
+            void (^completion)(BOOL) = ^(BOOL finished){
+                [obj setTransform:CGAffineTransformIdentity];
+            };
+            if (self.transitionType == AMWaveTransitionTypeSubtle) {
+                [UIView animateWithDuration:DURATION delay:delay options:UIViewAnimationOptionCurveEaseIn animations:animation completion:completion];
+            } else {
+                [UIView animateWithDuration:DURATION delay:delay usingSpringWithDamping:0.75 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:animation completion:completion];
+            }
+        }];
+        
+		
+        [[toVC visibleCells] enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(UITableViewCell *obj, NSUInteger idx, BOOL *stop) {
+            NSTimeInterval delay = ((float)idx / (float)[[fromVC visibleCells] count]) * MAX_DELAY;
+            [obj setTransform:CGAffineTransformMakeTranslation(delta, 0)];
+            void (^animation)() = ^{
+                [obj setTransform:CGAffineTransformIdentity];
+                [obj setAlpha:1];
+                
+            };
+            if (self.transitionType == AMWaveTransitionTypeSubtle) {
+                [UIView animateWithDuration:DURATION delay:delay options:UIViewAnimationOptionCurveEaseIn animations:animation completion:nil];
+            } else {
+                [UIView animateWithDuration:DURATION delay:delay usingSpringWithDamping:0.75 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:animation completion:nil];
+            }
+        }];
+		
+    }];
+}
+
+@end
