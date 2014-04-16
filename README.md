@@ -1,8 +1,8 @@
 AMWaveTransition
 ================
 
-[![Build Status](https://travis-ci.org/andreamazz/AMScrollingNavbar.png)](https://travis-ci.org/andreamazz/AMWaveTransition)
-[![Cocoapods](https://cocoapod-badges.herokuapp.com/v/AMScrollingNavbar/badge.png)](http://beta.cocoapods.org/?q=amwavetransition)
+[![Build Status](https://travis-ci.org/andreamazz/AMWaveTransition.png)](https://travis-ci.org/andreamazz/AMWaveTransition)
+[![Cocoapods](https://cocoapod-badges.herokuapp.com/v/AMWaveTransition/badge.png)](http://beta.cocoapods.org/?q=amwavetransition)
 [![Analytics](https://ga-beacon.appspot.com/UA-42282237-8/AMWaveTransition/README)](https://github.com/igrigorik/ga-beacon)
 
 Custom transition between viewcontrollers holding tableviews. Each cell is animated to simulate a 'wave effect'.
@@ -37,7 +37,7 @@ MIT License
 --------------------
 The MIT License (MIT)
 
-Copyright (c) 2013 Andrea Mazzini
+Copyright (c) 2014 Andrea Mazzini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
