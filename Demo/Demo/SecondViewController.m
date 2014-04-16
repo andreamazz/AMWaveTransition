@@ -33,13 +33,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 20;
+    return 10;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    cell.textLabel.text = @"Cell content is here";
+    cell.textLabel.text = @"John Doe";
+    cell.detailTextLabel.text = @"Transitions fanatic";
     [cell setBackgroundColor:[UIColor clearColor]];
 	[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;

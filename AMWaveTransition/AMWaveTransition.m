@@ -12,8 +12,8 @@
 
 #define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
 
-#define DURATION    0.5
-#define MAX_DELAY   0.25
+#define DURATION    0.65
+#define MAX_DELAY   0.15
 
 - (instancetype)init
 {
@@ -34,7 +34,7 @@
     self = [super init];
     if (self) {
         _operation = operation;
-        _transitionType = AMWaveTransitionTypeNervous;
+        _transitionType = AMWaveTransitionTypeSubtle;
     }
     return self;
 }
