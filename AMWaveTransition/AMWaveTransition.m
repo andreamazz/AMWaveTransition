@@ -34,7 +34,7 @@
     self = [super init];
     if (self) {
         _operation = operation;
-        _transitionType = AMWaveTransitionTypeSubtle;
+        _transitionType = AMWaveTransitionTypeNervous;
     }
     return self;
 }
