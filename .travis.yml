@@ -1,0 +1,4 @@
+language: objective-c
+install:
+- cd Demo
+script: xctool -project Demo.xcodeproj -scheme 'Demo' -configuration Release -sdk iphonesimulator7.0 -arch i386 build
