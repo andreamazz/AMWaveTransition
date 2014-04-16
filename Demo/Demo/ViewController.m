@@ -12,6 +12,7 @@
 @interface ViewController () <UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSArray *data;
 
 @end
 
@@ -21,10 +22,22 @@
 {
     [super viewDidLoad];
     
-    [self.navigationController.view setBackgroundColor:[UIColor whiteColor]];
-	
+    [self.navigationController.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"background"]]];
+	[self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navbar"] forBarMetrics:UIBarMetricsDefault];
     [self.view setBackgroundColor:[UIColor clearColor]];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    
+    [self setTitle:@"Demo"];
+    self.data =
+    @[
+      @{@"text": @"Stylized organs", @"icon": @"heart"},
+      @{@"text": @"Food pictures", @"icon": @"camera"},
+      @{@"text": @"Straight line maker", @"icon": @"pencil"},
+      @{@"text": @"Let's cook", @"icon": @"beaker"},
+      @{@"text": @"Beer map", @"icon": @"map"},
+      @{@"text": @"Clippy is back", @"icon": @"paperclip"}
+      ];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -35,15 +48,19 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 20;
+    return [self.data count];
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    cell.textLabel.text = @"Cell content is here";
+    
+    NSDictionary* dict = self.data[indexPath.row];
+    
+    cell.textLabel.text = dict[@"text"];
     [cell setBackgroundColor:[UIColor clearColor]];
 	[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    [cell.imageView setImage:[UIImage imageNamed:dict[@"icon"]]];
     return cell;
 }
 

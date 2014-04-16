@@ -21,8 +21,6 @@
 {
     [super viewDidLoad];
     
-    [self.navigationController.view setBackgroundColor:[UIColor whiteColor]];
-	
     [self.view setBackgroundColor:[UIColor clearColor]];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
 }
