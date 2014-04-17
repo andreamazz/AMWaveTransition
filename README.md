@@ -14,12 +14,56 @@ Screenshot
 Getting Started
 =================
 
-Setup
+Install
 --------------------
 * Add ```pod 'AMWaveTransition'``` to your [Podfile](http://cocoapods.org/)
 * Run ```pod install```
 * Run ```open App.xcworkspace```
-* Subclass ```AMWaveViewController``` or replicate its implementation in your view controllers
+
+Setup as superclass
+--------------------
+* Subclass ```AMWaveViewController``` and override ```visibleCells``` or follow these steps:
+
+Setup manually
+--------------------
+Implement ```UINavigationControllerDelegate``` and this delegate method:
+```objc
+- (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+                                  animationControllerForOperation:(UINavigationControllerOperation)operation
+                                               fromViewController:(UIViewController*)fromVC
+                                                 toViewController:(UIViewController*)toVC
+{
+    if (operation != UINavigationControllerOperationNone) {
+        // Return your preferred transition operation
+        return [AMWaveTransition transitionWithOperation:operation];
+    }
+    return nil;
+}
+```
+Remember to set your instance as the navigation delegate:
+```objc
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.navigationController setDelegate:self];
+}
+
+- (void)dealloc
+{
+    [self.navigationController setDelegate:nil];
+}
+```
+
+Implement th ```AMWaveTransitioning``` protocol by returning your tableview's visible cells:
+```objc
+- (NSArray*)visibleCells
+{
+    return [self.tableView visibleCells];
+}
+```
+
+As you can see in the sample project, the best results are obtained by setting the view and the cells' background to ```clearColor```, and setting a background color or a background image to the navigation controller.
+
 
 Changelog 
 ==================
@@ -30,7 +74,6 @@ Changelog
 
 TODO
 ==================
-* Parametrize animations values
 * Improve documentation
 
 MIT License

@@ -34,6 +34,8 @@
     self = [super init];
     if (self) {
         _operation = operation;
+        _duration = DURATION;
+        _maxDelay = MAX_DELAY;
         _transitionType = AMWaveTransitionTypeNervous;
     }
     return self;
@@ -41,7 +43,7 @@
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
 {
-    return DURATION + MAX_DELAY;
+    return self.duration + self.maxDelay;
 }
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext
@@ -77,14 +79,12 @@
     toVC.view.transform = CGAffineTransformMakeTranslation(SCREEN_WIDTH, 0);
     
     // First step is required to trigger the load of the visible cells.
-    [UIView animateWithDuration:0 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        //		toVC.view.transform = CGAffineTransformMakeTranslation(SCREEN_WIDTH, 0);
-    } completion:^(BOOL finished) {
+    [UIView animateWithDuration:0 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:nil completion:^(BOOL finished) {
         
         // Plain animation that moves the destination controller in place. Once it's done it will notify the transition context
         if (self.operation == UINavigationControllerOperationPush) {
             [toVC.view setTransform:CGAffineTransformMakeTranslation(1, 0)];
-			[UIView animateWithDuration:DURATION + MAX_DELAY delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+			[UIView animateWithDuration:self.duration + self.maxDelay delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
 				[toVC.view setTransform:CGAffineTransformIdentity];
 			} completion:^(BOOL finished) {
 				[transitionContext completeTransition:YES];
@@ -92,7 +92,7 @@
         } else {
             [fromVC.view setTransform:CGAffineTransformMakeTranslation(1, 0)];
             [toVC.view setTransform:CGAffineTransformIdentity];
-			[UIView animateWithDuration:DURATION + MAX_DELAY delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+			[UIView animateWithDuration:self.duration + self.maxDelay delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
 				[fromVC.view setTransform:CGAffineTransformMakeTranslation(SCREEN_WIDTH, 0)];
 			} completion:^(BOOL finished) {
 				[transitionContext completeTransition:YES];
@@ -103,7 +103,7 @@
         // Animates the cells of the starting view controller
         if ([fromVC respondsToSelector:@selector(visibleCells)]) {
             [[fromVC visibleCells] enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(UITableViewCell *obj, NSUInteger idx, BOOL *stop) {
-                NSTimeInterval delay = ((float)idx / (float)[[fromVC visibleCells] count]) * MAX_DELAY;
+                NSTimeInterval delay = ((float)idx / (float)[[fromVC visibleCells] count]) * self.maxDelay;
                 void (^animation)() = ^{
                     [obj setTransform:CGAffineTransformMakeTranslation(-delta, 0)];
                     [obj setAlpha:0];
@@ -112,25 +112,25 @@
                     [obj setTransform:CGAffineTransformIdentity];
                 };
                 if (self.transitionType == AMWaveTransitionTypeSubtle) {
-                    [UIView animateWithDuration:DURATION delay:delay options:UIViewAnimationOptionCurveEaseIn animations:animation completion:completion];
+                    [UIView animateWithDuration:self.duration delay:delay options:UIViewAnimationOptionCurveEaseIn animations:animation completion:completion];
                 } else {
-                    [UIView animateWithDuration:DURATION delay:delay usingSpringWithDamping:0.75 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:animation completion:completion];
+                    [UIView animateWithDuration:self.duration delay:delay usingSpringWithDamping:0.75 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:animation completion:completion];
                 }
             }];
         }
 	
         if ([toVC respondsToSelector:@selector(visibleCells)]) {
             [[toVC visibleCells] enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(UITableViewCell *obj, NSUInteger idx, BOOL *stop) {
-                NSTimeInterval delay = ((float)idx / (float)[[fromVC visibleCells] count]) * MAX_DELAY;
+                NSTimeInterval delay = ((float)idx / (float)[[fromVC visibleCells] count]) * self.maxDelay;
                 [obj setTransform:CGAffineTransformMakeTranslation(delta, 0)];
                 void (^animation)() = ^{
                     [obj setTransform:CGAffineTransformIdentity];
                     [obj setAlpha:1];
                 };
                 if (self.transitionType == AMWaveTransitionTypeSubtle) {
-                    [UIView animateWithDuration:DURATION delay:delay options:UIViewAnimationOptionCurveEaseIn animations:animation completion:nil];
+                    [UIView animateWithDuration:self.duration delay:delay options:UIViewAnimationOptionCurveEaseIn animations:animation completion:nil];
                 } else {
-                    [UIView animateWithDuration:DURATION delay:delay usingSpringWithDamping:0.75 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:animation completion:nil];
+                    [UIView animateWithDuration:self.duration delay:delay usingSpringWithDamping:0.75 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:animation completion:nil];
                 }
             }];
         }
