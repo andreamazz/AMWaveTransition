@@ -5,7 +5,9 @@ AMWaveTransition
 [![Cocoapods](https://cocoapod-badges.herokuapp.com/v/AMWaveTransition/badge.png)](http://cocoapods.org/?q=amwavetransition)
 [![Analytics](https://ga-beacon.appspot.com/UA-42282237-8/AMWaveTransition/README)](https://github.com/igrigorik/ga-beacon)
 
-Custom transition between viewcontrollers holding tableviews. Each cell is animated to simulate a 'wave effect'.
+Custom transition between viewcontrollers holding tableviews. Each cell is animated to simulate a 'wave effect'.  
+
+Read more about transitions [here](http://andreamazz.github.io/blog/2014/04/19/transitioning/)
 
 Screenshot
 --------------------
