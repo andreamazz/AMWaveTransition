@@ -104,37 +104,52 @@
         if ([fromVC respondsToSelector:@selector(visibleCells)]) {
             [[fromVC visibleCells] enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(UITableViewCell *obj, NSUInteger idx, BOOL *stop) {
                 NSTimeInterval delay = ((float)idx / (float)[[fromVC visibleCells] count]) * self.maxDelay;
-                void (^animation)() = ^{
-                    [obj setTransform:CGAffineTransformMakeTranslation(-delta, 0)];
-                    [obj setAlpha:0];
-                };
-                void (^completion)(BOOL) = ^(BOOL finished){
-                    [obj setTransform:CGAffineTransformIdentity];
-                };
-                if (self.transitionType == AMWaveTransitionTypeSubtle) {
-                    [UIView animateWithDuration:self.duration delay:delay options:UIViewAnimationOptionCurveEaseIn animations:animation completion:completion];
-                } else {
-                    [UIView animateWithDuration:self.duration delay:delay usingSpringWithDamping:0.75 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:animation completion:completion];
-                }
+                [self hideView:obj withDelay:delay andDelta:-delta];
             }];
+        } else {
+            // The controller has no table view, let's animate it gracefully
+            [self hideView:fromVC.view withDelay:0 andDelta:-delta];
         }
-	
+
         if ([toVC respondsToSelector:@selector(visibleCells)]) {
             [[toVC visibleCells] enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(UITableViewCell *obj, NSUInteger idx, BOOL *stop) {
-                NSTimeInterval delay = ((float)idx / (float)[[fromVC visibleCells] count]) * self.maxDelay;
-                [obj setTransform:CGAffineTransformMakeTranslation(delta, 0)];
-                void (^animation)() = ^{
-                    [obj setTransform:CGAffineTransformIdentity];
-                    [obj setAlpha:1];
-                };
-                if (self.transitionType == AMWaveTransitionTypeSubtle) {
-                    [UIView animateWithDuration:self.duration delay:delay options:UIViewAnimationOptionCurveEaseIn animations:animation completion:nil];
-                } else {
-                    [UIView animateWithDuration:self.duration delay:delay usingSpringWithDamping:0.75 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:animation completion:nil];
-                }
+                NSTimeInterval delay = ((float)idx / (float)[[toVC visibleCells] count]) * self.maxDelay;
+                [self presentView:obj withDelay:delay andDelta:delta];
             }];
+        } else {
+            [self presentView:toVC.view withDelay:0 andDelta:delta];
         }
     }];
+}
+
+- (void)hideView:(UIView *)view withDelay:(NSTimeInterval)delay andDelta:(float)delta
+{
+    void (^animation)() = ^{
+        [view setTransform:CGAffineTransformMakeTranslation(delta, 0)];
+        [view setAlpha:0];
+    };
+    void (^completion)(BOOL) = ^(BOOL finished){
+        [view setTransform:CGAffineTransformIdentity];
+    };
+    if (self.transitionType == AMWaveTransitionTypeSubtle) {
+        [UIView animateWithDuration:self.duration delay:delay options:UIViewAnimationOptionCurveEaseIn animations:animation completion:completion];
+    } else {
+        [UIView animateWithDuration:self.duration delay:delay usingSpringWithDamping:0.75 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:animation completion:completion];
+    }
+}
+
+- (void)presentView:(UIView *)view withDelay:(NSTimeInterval)delay andDelta:(float)delta
+{
+    [view setTransform:CGAffineTransformMakeTranslation(delta, 0)];
+    void (^animation)() = ^{
+        [view setTransform:CGAffineTransformIdentity];
+        [view setAlpha:1];
+    };
+    if (self.transitionType == AMWaveTransitionTypeSubtle) {
+        [UIView animateWithDuration:self.duration delay:delay options:UIViewAnimationOptionCurveEaseIn animations:animation completion:nil];
+    } else {
+        [UIView animateWithDuration:self.duration delay:delay usingSpringWithDamping:0.75 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:animation completion:nil];
+    }
 }
 
 @end

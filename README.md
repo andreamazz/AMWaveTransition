@@ -62,6 +62,8 @@ Implement th ```AMWaveTransitioning``` protocol by returning your tableview's vi
 }
 ```
 
+If the view controller you are transitioning to has no table view, don't implement `visibleCells`, the library will handle the transition correctly.  
+
 As you can see in the sample project, the best results are obtained by setting the view and the cells' background to ```clearColor```, and setting a background color or a background image to the navigation controller.
 
 
