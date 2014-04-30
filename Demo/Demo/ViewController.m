@@ -27,7 +27,7 @@
     [self.view setBackgroundColor:[UIColor clearColor]];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
-    
+
     [self setTitle:@"Demo"];
     self.data =
     @[
