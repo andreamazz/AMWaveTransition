@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6509E34D18FF0CEE0054FD6F /* AMWaveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6509E34C18FF0CEE0054FD6F /* AMWaveViewController.m */; };
+		65A0940D1912473100596A86 /* FourthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A0940C1912473100596A86 /* FourthViewController.m */; };
 		65BD291219114A28002AC110 /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BD291119114A28002AC110 /* ThirdViewController.m */; };
 		65E0370A18FE6BE200EFA799 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65E0370918FE6BE200EFA799 /* Foundation.framework */; };
 		65E0370C18FE6BE200EFA799 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65E0370B18FE6BE200EFA799 /* CoreGraphics.framework */; };
@@ -40,6 +41,8 @@
 /* Begin PBXFileReference section */
 		6509E34B18FF0CEE0054FD6F /* AMWaveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMWaveViewController.h; sourceTree = "<group>"; };
 		6509E34C18FF0CEE0054FD6F /* AMWaveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMWaveViewController.m; sourceTree = "<group>"; };
+		65A0940B1912473100596A86 /* FourthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FourthViewController.h; sourceTree = "<group>"; };
+		65A0940C1912473100596A86 /* FourthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FourthViewController.m; sourceTree = "<group>"; };
 		65BD291019114A28002AC110 /* ThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdViewController.h; sourceTree = "<group>"; };
 		65BD291119114A28002AC110 /* ThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdViewController.m; sourceTree = "<group>"; };
 		65E0370618FE6BE200EFA799 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,6 +94,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		65A0940E19124A5500596A86 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				65E0371E18FE6BE200EFA799 /* ViewController.h */,
+				65E0371F18FE6BE200EFA799 /* ViewController.m */,
+				65E0374218FE6CC200EFA799 /* SecondViewController.h */,
+				65E0374318FE6CC200EFA799 /* SecondViewController.m */,
+				65BD291019114A28002AC110 /* ThirdViewController.h */,
+				65BD291119114A28002AC110 /* ThirdViewController.m */,
+				65A0940B1912473100596A86 /* FourthViewController.h */,
+				65A0940C1912473100596A86 /* FourthViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
 		65E036FD18FE6BE100EFA799 = {
 			isa = PBXGroup;
 			children = (
@@ -125,15 +143,10 @@
 			isa = PBXGroup;
 			children = (
 				65E0373E18FE6C2500EFA799 /* AMWaveTransition */,
+				65A0940E19124A5500596A86 /* ViewControllers */,
 				65E0371818FE6BE200EFA799 /* AppDelegate.h */,
 				65E0371918FE6BE200EFA799 /* AppDelegate.m */,
 				65E0371B18FE6BE200EFA799 /* Main.storyboard */,
-				65E0371E18FE6BE200EFA799 /* ViewController.h */,
-				65E0371F18FE6BE200EFA799 /* ViewController.m */,
-				65E0374218FE6CC200EFA799 /* SecondViewController.h */,
-				65E0374318FE6CC200EFA799 /* SecondViewController.m */,
-				65BD291019114A28002AC110 /* ThirdViewController.h */,
-				65BD291119114A28002AC110 /* ThirdViewController.m */,
 				65E0372118FE6BE200EFA799 /* Images.xcassets */,
 				65E0371018FE6BE200EFA799 /* Supporting Files */,
 			);
@@ -278,6 +291,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65A0940D1912473100596A86 /* FourthViewController.m in Sources */,
 				65E0374418FE6CC200EFA799 /* SecondViewController.m in Sources */,
 				65E0372018FE6BE200EFA799 /* ViewController.m in Sources */,
 				65E0374118FE6C2500EFA799 /* AMWaveTransition.m in Sources */,
