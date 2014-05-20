@@ -12,6 +12,7 @@
 @interface SecondViewController () <UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) IBOutlet AMWaveTransition *interactive;
 
 @end
 
@@ -23,6 +24,8 @@
     
     [self.view setBackgroundColor:[UIColor clearColor]];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
+    _interactive = [[AMWaveTransition alloc] init];
+    [self.interactive attachInteractiveGestureToNavigationController:self.navigationController];
 }
 
 - (void)viewDidAppear:(BOOL)animated

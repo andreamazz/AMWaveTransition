@@ -74,4 +74,7 @@ typedef NS_ENUM(NSInteger, AMWaveTransitionType) {
  */
 @property (assign, nonatomic) CGFloat maxDelay;
 
+
+- (void)attachInteractiveGestureToNavigationController:(UINavigationController *)navigationController;
+
 @end

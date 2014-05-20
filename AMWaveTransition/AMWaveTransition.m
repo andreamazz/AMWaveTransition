@@ -8,6 +8,13 @@
 
 #import "AMWaveTransition.h"
 
+@interface AMWaveTransition ()
+
+@property (nonatomic, strong) UIScreenEdgePanGestureRecognizer *gesture;
+@property (nonatomic, strong) UINavigationController *navigationController;
+
+@end
+
 @implementation AMWaveTransition
 
 #define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
@@ -19,7 +26,7 @@
 {
     self = [super init];
     if (self) {
-        NSAssert(NO, @"Use initWithOperation: or transitionWithOperation: instead");
+        [self setup];
     }
     return self;
 }
@@ -34,11 +41,37 @@
     self = [super init];
     if (self) {
         _operation = operation;
-        _duration = DURATION;
-        _maxDelay = MAX_DELAY;
-        _transitionType = AMWaveTransitionTypeNervous;
+        [self setup];
     }
     return self;
+}
+
+- (void)setup
+{
+    _duration = DURATION;
+    _maxDelay = MAX_DELAY;
+    _transitionType = AMWaveTransitionTypeNervous;
+}
+
+- (void)attachInteractiveGestureToNavigationController:(UINavigationController *)navigationController
+{
+    self.navigationController = navigationController;
+    self.gesture = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    [self.gesture setEdges:UIRectEdgeLeft];
+    [navigationController.view addGestureRecognizer:self.gesture];
+}
+
+- (void)handlePan:(UIScreenEdgePanGestureRecognizer *)gesture
+{
+    UIViewController<AMWaveTransitioning> *fromVC;
+    fromVC = (UIViewController<AMWaveTransitioning> *)self.navigationController.topViewController;
+    for (UIView *view in [fromVC visibleCells]) {
+        CGRect frame = view.frame;
+        frame.origin.x = 0;
+        if (CGRectContainsPoint(frame, [gesture locationInView:self.navigationController.topViewController.view])) {
+            [view setTransform:CGAffineTransformMakeTranslation([gesture locationInView:self.navigationController.view].x, 0)];
+        }
+    }
 }
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
