@@ -7,12 +7,12 @@
 //
 
 #import "AMWaveTransition.h"
-#import <DynamicXray/DynamicXray.h>
+//#import <DynamicXray/DynamicXray.h>
 
 @interface AMWaveTransition ()
 
 @property (nonatomic, strong) UIScreenEdgePanGestureRecognizer *gesture;
-@property (nonatomic, strong) UINavigationController *navigationController;
+@property (nonatomic, weak) UINavigationController *navigationController;
 @property (nonatomic, assign) int selectionIndexFrom;
 @property (nonatomic, assign) int selectionIndexTo;
 
@@ -70,8 +70,8 @@
     self.animator = [[UIDynamicAnimator alloc]initWithReferenceView:navigationController.view];
     self.attachmentsFrom = [@[] mutableCopy];
     self.attachmentsTo = [@[] mutableCopy];
-    DynamicXray *xray = [[DynamicXray alloc] init];
-    [self.animator addBehavior:xray];
+//    DynamicXray *xray = [[DynamicXray alloc] init];
+//    [self.animator addBehavior:xray];
 }
 
 - (void)handlePan:(UIScreenEdgePanGestureRecognizer *)gesture
@@ -85,7 +85,6 @@
     int index = [self.navigationController.viewControllers indexOfObject:self.navigationController.topViewController];
     toVC = (UIViewController<AMWaveTransitioning> *)self.navigationController.viewControllers[index-1];
     
-    
     // The gesture velocity will also determine the velocity of the cells
     float velocity = [gesture velocityInView:self.navigationController.view].x;
     CGPoint touch = [gesture locationInView:self.navigationController.view];
@@ -96,7 +95,8 @@
             if (CGRectContainsPoint([view.superview convertRect:view.frame toView:nil], touch)) {
                 self.selectionIndexFrom = idx;
             }
-            UIAttachmentBehavior *attachment = [[UIAttachmentBehavior alloc] initWithItem:view attachedToAnchor:(CGPoint){touch.x, [view.superview convertPoint:view.frame.origin toView:nil].y + view.frame.size.height / 2}];
+            UIAttachmentBehavior *attachment = [[UIAttachmentBehavior alloc] initWithItem:view
+                                                                         attachedToAnchor:(CGPoint){touch.x, [view.superview convertPoint:view.frame.origin toView:nil].y + view.frame.size.height / 2}];
             [attachment setDamping:0.4];
             [attachment setFrequency:1];
             [self.animator addBehavior:attachment];
@@ -131,19 +131,18 @@
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
         
         [[fromVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-            float delta = [gesture locationInView:self.navigationController.view].x - abs(self.selectionIndexFrom - idx) * velocity / 30;
+            float delta = touch.x - abs(self.selectionIndexFrom - idx) * velocity / 30;
             // Prevent the anchor point from going 'over' the cell
             if (delta > view.frame.origin.x + view.frame.size.width / 2) {
                 delta = view.frame.origin.x + view.frame.size.width / 2 - 2;
             }
-            // TODO: account for the scroll offset
             [self.attachmentsFrom[idx] setAnchorPoint:(CGPoint){delta, [view.superview convertPoint:view.frame.origin toView:nil].y + view.frame.size.height / 2}];
+
         }];
 
         [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
             float delta = [gesture locationInView:self.navigationController.view].x - abs(self.selectionIndexTo - idx) * velocity / 30;
             // Prevent the anchor point from going 'over' the cell
-            // TODO: figure this out
             if (delta < view.frame.origin.x + view.frame.size.width / 2) {
                 delta = view.frame.origin.x + view.frame.size.width / 2 + 2;
             }
