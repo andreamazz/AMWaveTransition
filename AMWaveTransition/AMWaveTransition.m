@@ -13,11 +13,12 @@
 
 @property (nonatomic, strong) UIScreenEdgePanGestureRecognizer *gesture;
 @property (nonatomic, strong) UINavigationController *navigationController;
-@property (nonatomic, assign) int selectionIndex;
-
+@property (nonatomic, assign) int selectionIndexFrom;
+@property (nonatomic, assign) int selectionIndexTo;
 
 @property (nonatomic, strong) UIDynamicAnimator *animator;
-@property (nonatomic, strong) NSMutableArray *attachments;
+@property (nonatomic, strong) NSMutableArray *attachmentsFrom;
+@property (nonatomic, strong) NSMutableArray *attachmentsTo;
 
 @end
 
@@ -67,50 +68,88 @@
     [navigationController.view addGestureRecognizer:self.gesture];
     
     self.animator = [[UIDynamicAnimator alloc]initWithReferenceView:navigationController.topViewController.view];
-    self.attachments = [@[] mutableCopy];
+    self.attachmentsFrom = [@[] mutableCopy];
     DynamicXray *xray = [[DynamicXray alloc] init];
     [self.animator addBehavior:xray];
-    
 }
 
 - (void)handlePan:(UIScreenEdgePanGestureRecognizer *)gesture
 {
+    // Starting controller
     UIViewController<AMWaveTransitioning> *fromVC;
     fromVC = (UIViewController<AMWaveTransitioning> *)self.navigationController.topViewController;
+
+    // Controller that will be visible after the pop
+    UIViewController<AMWaveTransitioning> *toVC;
+    int index = [self.navigationController.viewControllers indexOfObject:self.navigationController.topViewController];
+    toVC = (UIViewController<AMWaveTransitioning> *)self.navigationController.viewControllers[index-1];
+    
+    // The gesture velocity will also determine the velocity of the cells
     float velocity = [gesture velocityInView:self.navigationController.view].x;
     CGPoint touch = [gesture locationInView:self.navigationController.topViewController.view];
 
     if (gesture.state == UIGestureRecognizerStateBegan) {
         [[fromVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+            // The 'selected' cell will be the one leading the other cells
             if (CGRectContainsPoint(view.frame, touch)) {
-
-                self.selectionIndex = idx;
+                self.selectionIndexFrom = idx;
             }
             
             UIAttachmentBehavior *attachment = [[UIAttachmentBehavior alloc] initWithItem:view attachedToAnchor:(CGPoint){touch.x, view.frame.origin.y + view.frame.size.height / 2}];
             [attachment setDamping:0.4];
             [attachment setFrequency:1];
             [self.animator addBehavior:attachment];
-            [self.attachments addObject:attachment];
+            [self.attachmentsFrom addObject:attachment];
         }];
+        
+
+        [self.navigationController.view addSubview:toVC.view];
+        [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+//            if (CGRectContainsPoint(view.frame, touch)) {
+//                self.selectionIndexFrom = idx;
+//            }
+            // TODO: move the setalpha below and scale it
+            [view setAlpha:1];
+//            UIAttachmentBehavior *attachment = [[UIAttachmentBehavior alloc] initWithItem:view attachedToAnchor:(CGPoint){touch.x, view.frame.origin.y + view.frame.size.height / 2}];
+//            [attachment setDamping:0.4];
+//            [attachment setFrequency:1];
+//            [self.animator addBehavior:attachment];
+//            [self.attachmentsFrom addObject:attachment];
+        }];
+        
 
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
         
         [[fromVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-            float delta = [gesture locationInView:self.navigationController.view].x - abs(self.selectionIndex - idx) * velocity / 30;
+            float delta = [gesture locationInView:self.navigationController.view].x - abs(self.selectionIndexFrom - idx) * velocity / 30;
             // Prevent the anchor point from going 'over' the cell
             if (delta > view.frame.origin.x + view.frame.size.width / 2) {
                 delta = view.frame.origin.x + view.frame.size.width / 2 - 10;
             }
-            [self.attachments[idx] setAnchorPoint:(CGPoint){delta, view.frame.origin.y + view.frame.size.height / 2}];
+            [self.attachmentsFrom[idx] setAnchorPoint:(CGPoint){delta, view.frame.origin.y + view.frame.size.height / 2}];
         }];
  
-    } else if (gesture.state == UIGestureRecognizerStateEnded) {
-        [self.attachments enumerateObjectsUsingBlock:^(UIAttachmentBehavior *obj, NSUInteger idx, BOOL *stop) {
+    } else if (gesture.state == UIGestureRecognizerStateEnded || gesture.state == UIGestureRecognizerStateCancelled) {
+        [self.attachmentsFrom enumerateObjectsUsingBlock:^(UIAttachmentBehavior *obj, NSUInteger idx, BOOL *stop) {
             [self.animator removeBehavior:obj];
         }];
+        [self.attachmentsFrom removeAllObjects];
+        if (gesture.state == UIGestureRecognizerStateEnded && touch.x > self.navigationController.view.frame.size.width * 0.7) {
+            // Complete the transition
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            // Abort
+            [[fromVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+                [UIView animateWithDuration:0.3 animations:^{
+                    CGRect rect = view.frame;
+                    rect.origin.x = 0;
+                    view.frame = rect;
+                } completion:^(BOOL finished) {
+                    [toVC.view removeFromSuperview];
+                }];
+            }];
+        }
     }
-
 }
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
