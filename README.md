@@ -7,7 +7,7 @@
 
 Custom transition between viewcontrollers holding tableviews. Each cell is animated to simulate a 'wave effect'.  
 
-Read more about transitions [here](http://andreamazz.github.io/blog/2014/04/19/transitioning/)
+Read more about transitions [here](http://andreamazz.github.io/blog/2014/04/19/transitioning/) and UIKit Dynamics [here](http://andreamazz.github.io/blog/2014/05/22/uikit-dynamics/)
 
 ###Screenshot 
 
