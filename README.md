@@ -1,4 +1,4 @@
-AMWaveTransition
+##AMWaveTransition
 ================
 
 [![Build Status](https://travis-ci.org/andreamazz/AMWaveTransition.png)](https://travis-ci.org/andreamazz/AMWaveTransition)
@@ -9,25 +9,25 @@ Custom transition between viewcontrollers holding tableviews. Each cell is anima
 
 Read more about transitions [here](http://andreamazz.github.io/blog/2014/04/19/transitioning/)
 
-Screenshot
---------------------
+###Screenshot 
+
 ![AMWaveTransition](https://raw.githubusercontent.com/andreamazz/AMWaveTransition/master/screenshot.gif)
 
 Getting Started
 =================
 
-Install
---------------------
+###Install 
+
 * Add ```pod 'AMWaveTransition'``` to your [Podfile](http://cocoapods.org/)
 * Run ```pod install```
 * Run ```open App.xcworkspace```
 
-Setup as superclass
---------------------
+###Setup as superclass 
+
 * Subclass ```AMWaveViewController``` and override ```visibleCells``` or follow these steps:
 
-Setup manually
---------------------
+###Setup manually 
+
 Implement ```UINavigationControllerDelegate``` and this delegate method:
 ```objc
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
@@ -64,13 +64,38 @@ Implement th ```AMWaveTransitioning``` protocol by returning your tableview's vi
 }
 ```
 
+###Interactive gesture 
+
+To implement the interactive gesture create a new property in your view controller:
+```objc
+@property (strong, nonatomic) IBOutlet AMWaveTransition *interactive;
+```
+initialize it in your `viewDidLoad`:
+```objc
+self.interactive = [[AMWaveTransition alloc] init];
+```
+Attach the gesture recognizer in your `viewDidAppear:` and detach it in the `viewDidDisappear:`:
+```objc
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.interactive attachInteractiveGestureToNavigationController:self.navigationController];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self.interactive detachInteractiveGesture];
+}
+```
+
 If the view controller you are transitioning to has no table view, don't implement `visibleCells`, the library will handle the transition correctly.  
 
 As you can see in the sample project, the best results are obtained by setting the view and the cells' background to ```clearColor```, and setting a background color or a background image to the navigation controller.
 
 
-MIT License
---------------------
+###MIT License
+
     The MIT License (MIT)
 
     Copyright (c) 2014 Andrea Mazzini

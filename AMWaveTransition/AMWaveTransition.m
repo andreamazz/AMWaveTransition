@@ -7,7 +7,6 @@
 //
 
 #import "AMWaveTransition.h"
-//#import <DynamicXray/DynamicXray.h>
 
 @interface AMWaveTransition ()
 
@@ -70,8 +69,15 @@
     self.animator = [[UIDynamicAnimator alloc]initWithReferenceView:navigationController.view];
     self.attachmentsFrom = [@[] mutableCopy];
     self.attachmentsTo = [@[] mutableCopy];
-//    DynamicXray *xray = [[DynamicXray alloc] init];
-//    [self.animator addBehavior:xray];
+}
+
+- (void)detachInteractiveGesture
+{
+    [self.navigationController.view removeGestureRecognizer:self.gesture];
+    self.navigationController = nil;
+    self.gesture = nil;
+    [self.animator removeAllBehaviors];
+    self.animator = nil;
 }
 
 - (void)handlePan:(UIScreenEdgePanGestureRecognizer *)gesture
@@ -82,7 +88,7 @@
 
     // Controller that will be visible after the pop
     UIViewController<AMWaveTransitioning> *toVC;
-    int index = [self.navigationController.viewControllers indexOfObject:self.navigationController.topViewController];
+    int index = (int)[self.navigationController.viewControllers indexOfObject:self.navigationController.topViewController];
     toVC = (UIViewController<AMWaveTransitioning> *)self.navigationController.viewControllers[index-1];
     
     // The gesture velocity will also determine the velocity of the cells
@@ -93,7 +99,7 @@
         [[fromVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
             // The 'selected' cell will be the one leading the other cells
             if (CGRectContainsPoint([view.superview convertRect:view.frame toView:nil], touch)) {
-                self.selectionIndexFrom = idx;
+                self.selectionIndexFrom = (int)idx;
             }
             UIAttachmentBehavior *attachment = [[UIAttachmentBehavior alloc] initWithItem:view
                                                                          attachedToAnchor:(CGPoint){touch.x, [view.superview convertPoint:view.frame.origin toView:nil].y + view.frame.size.height / 2}];
@@ -116,7 +122,7 @@
             CGRect futureRect = view.frame;
             futureRect.origin.x = 0;
             if (CGRectContainsPoint([view.superview convertRect:futureRect toView:nil], touch)) {
-                self.selectionIndexTo = idx;
+                self.selectionIndexTo = (int)idx;
             }
             // TODO: move the setalpha below and scale it
             [view setAlpha:1];
@@ -126,12 +132,11 @@
             [self.animator addBehavior:attachment];
             [self.attachmentsTo addObject:attachment];
         }];
-        
 
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
         
         [[fromVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-            float delta = touch.x - abs(self.selectionIndexFrom - idx) * velocity / 30;
+            float delta = touch.x - abs(self.selectionIndexFrom - (int)idx) * velocity / 50;
             // Prevent the anchor point from going 'over' the cell
             if (delta > view.frame.origin.x + view.frame.size.width / 2) {
                 delta = view.frame.origin.x + view.frame.size.width / 2 - 2;
@@ -141,7 +146,7 @@
         }];
 
         [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-            float delta = [gesture locationInView:self.navigationController.view].x - abs(self.selectionIndexTo - idx) * velocity / 30;
+            float delta = [gesture locationInView:self.navigationController.view].x - abs(self.selectionIndexTo - (int)idx) * velocity / 50;
             // Prevent the anchor point from going 'over' the cell
             if (delta < view.frame.origin.x + view.frame.size.width / 2) {
                 delta = view.frame.origin.x + view.frame.size.width / 2 + 2;
@@ -174,7 +179,6 @@
                     view.frame = rect;
                 }];
             } completion:^(BOOL finished) {
-                [fromVC.view removeFromSuperview];
                 [self.navigationController popViewControllerAnimated:NO];
             }];
         } else {
@@ -191,13 +195,13 @@
                     view.frame = rect;
                 }];
             } completion:^(BOOL finished) {
-                [toVC.view removeFromSuperview];
                 // Bring 'silently' the cell back to their place, or the normal pop operation would fail
                 [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
                     CGRect rect = view.frame;
                     rect.origin.x = 0;
                     view.frame = rect;
                 }];
+                [toVC.view removeFromSuperview];
             }];
 
         }

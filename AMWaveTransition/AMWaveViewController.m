@@ -11,6 +11,8 @@
 
 @interface AMWaveViewController () <UINavigationControllerDelegate, AMWaveTransitioning>
 
+@property (strong, nonatomic) IBOutlet AMWaveTransition *interactive;
+
 @end
 
 @implementation AMWaveViewController
@@ -24,6 +26,13 @@
 {
     [super viewDidAppear:animated];
     [self.navigationController setDelegate:self];
+    [self.interactive attachInteractiveGestureToNavigationController:self.navigationController];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self.interactive detachInteractiveGesture];
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController

@@ -25,13 +25,19 @@
     [self.view setBackgroundColor:[UIColor clearColor]];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
     _interactive = [[AMWaveTransition alloc] init];
-    [self.interactive attachInteractiveGestureToNavigationController:self.navigationController];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [self.navigationController setDelegate:self];
+    [self.interactive attachInteractiveGestureToNavigationController:self.navigationController];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self.interactive detachInteractiveGesture];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

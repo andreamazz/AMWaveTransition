@@ -40,6 +40,20 @@ typedef NS_ENUM(NSInteger, AMWaveTransitionType) {
  */
 - (instancetype)initWithOperation:(UINavigationControllerOperation)operation;
 
+/** Attach the interactive gesture
+ *
+ * Attach the interactive gesture to the navigation controller. This will pop the current view controller when the user swipes from the left edge.
+ * Make sure to detach the gesture when done.
+ *
+ * @param navigationController The UINavigationController that holds the current view controller
+ */
+- (void)attachInteractiveGestureToNavigationController:(UINavigationController *)navigationController;
+
+/** Detach the interactive gesture
+ *
+ * Detaches the interactive gesture.
+ */
+- (void)detachInteractiveGesture;
 
 /**-----------------------------------------------------------------------------
  * @name AMWaveTransition Properties
@@ -73,8 +87,5 @@ typedef NS_ENUM(NSInteger, AMWaveTransitionType) {
  *
  */
 @property (assign, nonatomic) CGFloat maxDelay;
-
-
-- (void)attachInteractiveGestureToNavigationController:(UINavigationController *)navigationController;
 
 @end
