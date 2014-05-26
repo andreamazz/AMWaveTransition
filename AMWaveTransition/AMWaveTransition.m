@@ -142,7 +142,6 @@
                 delta = view.frame.origin.x + view.frame.size.width / 2 - 2;
             }
             [self.attachmentsFrom[idx] setAnchorPoint:(CGPoint){delta, [view.superview convertPoint:view.frame.origin toView:nil].y + view.frame.size.height / 2}];
-
         }];
 
         [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
