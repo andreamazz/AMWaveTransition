@@ -33,21 +33,34 @@
     self = [super init];
     if (self) {
         [self setup];
+        _operation = UINavigationControllerOperationNone;
+        _transitionType = AMWaveTransitionTypeNervous;
     }
     return self;
 }
 
 + (instancetype)transitionWithOperation:(UINavigationControllerOperation)operation
 {
-    return [[self alloc] initWithOperation:operation];
+    return [[self alloc] initWithOperation:operation andTransitionType:AMWaveTransitionTypeNervous];
 }
 
 - (instancetype)initWithOperation:(UINavigationControllerOperation)operation
 {
+    return [self initWithOperation:operation andTransitionType:AMWaveTransitionTypeNervous];
+}
+
++ (instancetype)transitionWithOperation:(UINavigationControllerOperation)operation andTransitionType:(AMWaveTransitionType)type
+{
+    return [[self alloc] initWithOperation:operation andTransitionType:type];
+}
+
+- (instancetype)initWithOperation:(UINavigationControllerOperation)operation andTransitionType:(AMWaveTransitionType)type
+{
     self = [super init];
     if (self) {
-        _operation = operation;
         [self setup];
+        _operation = operation;
+        _transitionType = type;
     }
     return self;
 }
@@ -56,7 +69,6 @@
 {
     _duration = DURATION;
     _maxDelay = MAX_DELAY;
-    _transitionType = AMWaveTransitionTypeNervous;
 }
 
 - (void)attachInteractiveGestureToNavigationController:(UINavigationController *)navigationController
@@ -85,7 +97,7 @@
     // Starting controller
     UIViewController<AMWaveTransitioning> *fromVC;
     fromVC = (UIViewController<AMWaveTransitioning> *)self.navigationController.topViewController;
-
+    
     // Controller that will be visible after the pop
     UIViewController<AMWaveTransitioning> *toVC;
     int index = (int)[self.navigationController.viewControllers indexOfObject:self.navigationController.topViewController];
@@ -94,7 +106,7 @@
     // The gesture velocity will also determine the velocity of the cells
     float velocity = [gesture velocityInView:self.navigationController.view].x;
     CGPoint touch = [gesture locationInView:self.navigationController.view];
-
+    
     if (gesture.state == UIGestureRecognizerStateBegan) {
         [[fromVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
             // The 'selected' cell will be the one leading the other cells
@@ -109,7 +121,7 @@
             [self.attachmentsFrom addObject:attachment];
         }];
         
-
+        
         // Kick the 'new' cells outside the view
         [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
             CGRect rect = view.frame;
@@ -132,7 +144,7 @@
             [self.animator addBehavior:attachment];
             [self.attachmentsTo addObject:attachment];
         }];
-
+        
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
         
         [[fromVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
@@ -143,7 +155,7 @@
             }
             [self.attachmentsFrom[idx] setAnchorPoint:(CGPoint){delta, [view.superview convertPoint:view.frame.origin toView:nil].y + view.frame.size.height / 2}];
         }];
-
+        
         [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
             float delta = [gesture locationInView:self.navigationController.view].x - abs(self.selectionIndexTo - (int)idx) * velocity / 50;
             // Prevent the anchor point from going 'over' the cell
@@ -158,7 +170,7 @@
             [self.animator removeBehavior:obj];
         }];
         [self.attachmentsFrom removeAllObjects];
-
+        
         [self.attachmentsTo enumerateObjectsUsingBlock:^(UIAttachmentBehavior *obj, NSUInteger idx, BOOL *stop) {
             [self.animator removeBehavior:obj];
         }];
@@ -202,7 +214,7 @@
                 }];
                 [toVC.view removeFromSuperview];
             }];
-
+            
         }
     }
 }
@@ -235,7 +247,7 @@
     if (self.operation == UINavigationControllerOperationPush) {
         delta = SCREEN_WIDTH;
     } else {
-
+        
         delta = -SCREEN_WIDTH;
     }
     
@@ -276,7 +288,7 @@
             // The controller has no table view, let's animate it gracefully
             [self hideView:fromVC.view withDelay:0 andDelta:-delta];
         }
-
+        
         if ([toVC respondsToSelector:@selector(visibleCells)]) {
             [[toVC visibleCells] enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(UITableViewCell *obj, NSUInteger idx, BOOL *stop) {
                 NSTimeInterval delay = ((float)idx / (float)[[toVC visibleCells] count]) * self.maxDelay;
@@ -299,8 +311,10 @@
     };
     if (self.transitionType == AMWaveTransitionTypeSubtle) {
         [UIView animateWithDuration:self.duration delay:delay options:UIViewAnimationOptionCurveEaseIn animations:animation completion:completion];
-    } else {
+    } else if (self.transitionType == AMWaveTransitionTypeNervous) {
         [UIView animateWithDuration:self.duration delay:delay usingSpringWithDamping:0.75 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:animation completion:completion];
+    } else if (self.transitionType == AMWaveTransitionTypeBounce){
+        [UIView animateWithDuration:self.duration delay:delay options:UIViewAnimationOptionCurveEaseInOut animations:animation completion:completion];
     }
 }
 
@@ -313,8 +327,10 @@
     };
     if (self.transitionType == AMWaveTransitionTypeSubtle) {
         [UIView animateWithDuration:self.duration delay:delay options:UIViewAnimationOptionCurveEaseIn animations:animation completion:nil];
-    } else {
+    } else if (self.transitionType == AMWaveTransitionTypeNervous) {
         [UIView animateWithDuration:self.duration delay:delay usingSpringWithDamping:0.75 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:animation completion:nil];
+    } else if (self.transitionType == AMWaveTransitionTypeBounce){
+        [UIView animateWithDuration:self.duration delay:delay options:UIViewAnimationOptionCurveEaseInOut animations:animation completion:nil];
     }
 }
 
