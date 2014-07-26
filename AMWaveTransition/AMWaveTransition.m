@@ -252,7 +252,7 @@
     }
     
     // Move the destination in place
-    toVC.view.frame = source;
+    toVC.view.frame = [transitionContext finalFrameForViewController:toVC];
     // And kick it aside
     toVC.view.transform = CGAffineTransformMakeTranslation(SCREEN_WIDTH, 0);
     
