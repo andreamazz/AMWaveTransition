@@ -240,7 +240,6 @@
         toVC = (UIViewController<AMWaveTransitioning>*)([transitionContext viewControllerForKey:UITransitionContextToViewControllerKey]);
     }
 	
-    CGRect source = [transitionContext initialFrameForViewController:fromVC];
     [[transitionContext containerView] addSubview:toVC.view];
     
     CGFloat delta;
