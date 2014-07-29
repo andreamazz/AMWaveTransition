@@ -126,6 +126,9 @@
         [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
             CGRect rect = view.frame;
             rect.origin.x = -SCREEN_WIDTH;
+            if (self.navigationController.navigationBar.translucent) {
+                rect.origin.y += self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
+            }
             view.frame = rect;
         }];
         
@@ -190,6 +193,13 @@
                     view.frame = rect;
                 }];
             } completion:^(BOOL finished) {
+                if (self.navigationController.navigationBar.translucent) {
+                    [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+                        CGRect rect = view.frame;
+                        rect.origin.y -= self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
+                        view.frame = rect;
+                    }];
+                }
                 [self.navigationController popViewControllerAnimated:NO];
             }];
         } else {
@@ -210,6 +220,9 @@
                 [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
                     CGRect rect = view.frame;
                     rect.origin.x = 0;
+                    if (self.navigationController.navigationBar.translucent) {
+                        rect.origin.y -= self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
+                    }
                     view.frame = rect;
                 }];
                 [toVC.view removeFromSuperview];
