@@ -15,7 +15,6 @@ typedef NS_ENUM(NSInteger, AMWaveTransitionViewControllers) {
 
 @interface AMWaveTransition ()
 
-//@property (nonatomic, strong) UIScreenEdgePanGestureRecognizer *gesture;
 @property (nonatomic, strong) UIGestureRecognizer *gesture;
 @property (nonatomic, weak) UINavigationController *navigationController;
 @property (nonatomic, assign) int selectionIndexFrom;
@@ -158,7 +157,7 @@ const CGFloat MAX_DELAY = 0.15;
             [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
                 [self kickCellOutside:view];
             }];
-        } else {
+        } else if (toVC) {
             UIView *view = toVC.view;
             [self kickCellOutside:view];
         }
@@ -174,7 +173,7 @@ const CGFloat MAX_DELAY = 0.15;
                 }
                 [self createAttachmentForView:view inVC:AMWaveTransitionToVC];
             }];
-        } else {
+        } else if (toVC) {
             UIView *view = toVC.view;
             self.selectionIndexTo = 0;
             [self createAttachmentForView:view inVC:AMWaveTransitionToVC];
@@ -205,7 +204,7 @@ const CGFloat MAX_DELAY = 0.15;
                                        velocity:velocity
                                            inVC:AMWaveTransitionToVC];
             }];
-        } else {
+        } else if (toVC) {
             UIView *view = toVC.view;
             [self changeAttachmentWithIndex:0
                                      inView:view
@@ -245,9 +244,8 @@ const CGFloat MAX_DELAY = 0.15;
                     [self setPresentedFrameForView:view];
                 }
             } completion:^(BOOL finished) {
-                if (self.navigationController.navigationBar.translucent) {
                     if ([toVC respondsToSelector:@selector(visibleCells)] && [toVC visibleCells].count > 0) {
-                        if (self.navigationController.navigationBar.translucent) {
+                        if (self.navigationController.navigationBar.translucent && !self.navigationController.navigationBar.hidden) {
                             [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
                                 CGRect rect = view.frame;
                                 rect.origin.y -= self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
@@ -258,13 +256,13 @@ const CGFloat MAX_DELAY = 0.15;
                     } else {
                         UIView *view = toVC.view;
                         CGRect rect = view.frame;
-                        if (self.navigationController.navigationBar.translucent) {
+                        if (self.navigationController.navigationBar.translucent && !self.navigationController.navigationBar.hidden) {
                             rect.origin.y -= self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
                         }
                         view.frame = rect;
                         view.alpha = [self alphaForView:view];
                     }
-                }
+                
                 [self.navigationController popViewControllerAnimated:NO];
             }];
         } else {
@@ -292,7 +290,7 @@ const CGFloat MAX_DELAY = 0.15;
                     [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
                         CGRect rect = view.frame;
                         rect.origin.x = 0;
-                        if (self.navigationController.navigationBar.translucent) {
+                        if (self.navigationController.navigationBar.translucent && !self.navigationController.navigationBar.hidden) {
                             rect.origin.y -= self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
                         }
                         view.frame = rect;
@@ -302,7 +300,7 @@ const CGFloat MAX_DELAY = 0.15;
                     UIView *view = toVC.view;
                     CGRect rect = view.frame;
                     rect.origin.x = 0;
-                    if (self.navigationController.navigationBar.translucent) {
+                    if (self.navigationController.navigationBar.translucent && !self.navigationController.navigationBar.hidden) {
                         rect.origin.y -= self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
                     }
                     view.frame = rect;
