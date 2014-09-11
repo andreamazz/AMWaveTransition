@@ -153,6 +153,7 @@ const CGFloat MAX_DELAY = 0.15;
             [self createAttachmentForView:view inVC:AMWaveTransitionFromVC];
         }
         // Kick the 'new' cells outside the view
+        [self.navigationController.view insertSubview:toVC.view belowSubview:self.navigationController.navigationBar];
         if ([toVC respondsToSelector:@selector(visibleCells)] && [toVC visibleCells].count > 0) {
             [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
                 [self kickCellOutside:view];
@@ -161,8 +162,6 @@ const CGFloat MAX_DELAY = 0.15;
             UIView *view = toVC.view;
             [self kickCellOutside:view];
         }
-        
-        [self.navigationController.view addSubview:toVC.view];
         
         if ([toVC respondsToSelector:@selector(visibleCells)] && [toVC visibleCells].count > 0) {
             [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
@@ -245,22 +244,13 @@ const CGFloat MAX_DELAY = 0.15;
                 }
             } completion:^(BOOL finished) {
                     if ([toVC respondsToSelector:@selector(visibleCells)] && [toVC visibleCells].count > 0) {
-                        if (self.navigationController.navigationBar.translucent && !self.navigationController.navigationBar.hidden) {
+                        
                             [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-                                CGRect rect = view.frame;
-                                rect.origin.y -= self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
-                                view.frame = rect;
-                                view.alpha = [self alphaForView:view];
+                                [self animationCompletionForInteractiveTransitionForView:view];
                             }];
-                        }
                     } else {
                         UIView *view = toVC.view;
-                        CGRect rect = view.frame;
-                        if (self.navigationController.navigationBar.translucent && !self.navigationController.navigationBar.hidden) {
-                            rect.origin.y -= self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
-                        }
-                        view.frame = rect;
-                        view.alpha = [self alphaForView:view];
+                        [self animationCompletionForInteractiveTransitionForView:view];
                     }
                 
                 [self.navigationController popViewControllerAnimated:NO];
@@ -288,29 +278,28 @@ const CGFloat MAX_DELAY = 0.15;
                 // Bring 'silently' the cell back to their place, or the normal pop operation would fail
                 if ([toVC respondsToSelector:@selector(visibleCells)] && [toVC visibleCells].count > 0) {
                     [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-                        CGRect rect = view.frame;
-                        rect.origin.x = 0;
-                        if (self.navigationController.navigationBar.translucent && !self.navigationController.navigationBar.hidden) {
-                            rect.origin.y -= self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
-                        }
-                        view.frame = rect;
-                        view.alpha = [self alphaForView:view];
+                        [self animationCompletionForInteractiveTransitionForView:view];
                     }];
                 } else {
                     UIView *view = toVC.view;
-                    CGRect rect = view.frame;
-                    rect.origin.x = 0;
-                    if (self.navigationController.navigationBar.translucent && !self.navigationController.navigationBar.hidden) {
-                        rect.origin.y -= self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
-                    }
-                    view.frame = rect;
-                    view.alpha = [self alphaForView:view];
+                    [self animationCompletionForInteractiveTransitionForView:view];
                 }
                 [toVC.view removeFromSuperview];
             }];
         }
     }
 }
+
+- (void)animationCompletionForInteractiveTransitionForView:(UIView *)view {
+    CGRect rect = view.frame;
+    rect.origin.x = 0;
+    if (self.navigationController.navigationBar.translucent && !self.navigationController.navigationBar.hidden) {
+        rect.origin.y -= self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
+    }
+    view.frame = rect;
+    view.alpha = [self alphaForView:view];
+}
+
 
 - (void)setPresentedFrameForView:(UIView *)view {
     CGRect rect = view.frame;
