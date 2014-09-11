@@ -20,6 +20,11 @@ typedef NS_ENUM(NSInteger, AMWaveTransitionType) {
     AMWaveTransitionTypeBounce
 };
 
+typedef NS_ENUM(NSInteger, AMWaveInteractiveTransitionType) {
+    AMWaveTransitionEdgePan,
+    AMWaveTransitionFullScreenPan,
+};
+
 @interface AMWaveTransition : NSObject <UIViewControllerAnimatedTransitioning>
 
 /**-----------------------------------------------------------------------------
@@ -108,5 +113,26 @@ typedef NS_ENUM(NSInteger, AMWaveTransitionType) {
  *
  */
 @property (assign, nonatomic) CGFloat maxDelay;
+
+/** Inset between view controllers
+ *
+ * Sets the inset between view controllers.
+ *
+ */
+@property (assign, nonatomic) CGFloat viewControllersInset;
+
+/** Alpha animation with interactive transition
+ *
+ * Turn on/off alpha animation with interactive transition.
+ *
+ */
+@property (assign, nonatomic) BOOL animateAlphaWithInteractiveTransition;
+
+/** Interactive transition type
+ *
+ * Sets interactive transition type (edge or fullscreen).
+ *
+ */
+@property (assign, nonatomic) AMWaveInteractiveTransitionType interactiveTransitionType;
 
 @end
