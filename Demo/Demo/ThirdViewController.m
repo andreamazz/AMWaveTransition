@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (assign, nonatomic) AMWaveTransitionType animationType;
+@property (strong, nonatomic) IBOutlet AMWaveTransition *interactive;
 
 @end
 
@@ -26,7 +27,7 @@
     
     [self.view setBackgroundColor:[UIColor clearColor]];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
-    
+    _interactive = [[AMWaveTransition alloc] init];
     self.animationType = AMWaveTransitionTypeNervous;
 }
 
@@ -34,6 +35,13 @@
 {
     [super viewDidAppear:animated];
     [self.navigationController setDelegate:self];
+    [self.interactive attachInteractiveGestureToNavigationController:self.navigationController];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self.interactive detachInteractiveGesture];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
