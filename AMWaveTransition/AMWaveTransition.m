@@ -121,7 +121,8 @@
             [self.attachmentsFrom addObject:attachment];
         }];
         
-        
+        [self.navigationController.view insertSubview:toVC.view belowSubview:self.navigationController.navigationBar];
+    
         // Kick the 'new' cells outside the view
         [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
             CGRect rect = view.frame;
@@ -132,7 +133,6 @@
             view.frame = rect;
         }];
         
-        [self.navigationController.view addSubview:toVC.view];
         [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
             CGRect futureRect = view.frame;
             futureRect.origin.x = 0;
