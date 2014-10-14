@@ -27,6 +27,12 @@ typedef NS_ENUM(NSInteger, AMWaveTransitionViewControllers) {
 
 @end
 
+
+@interface UITableView (AMWaveTransition)
+- (NSArray*)am_visibleViews;
+@end
+
+
 @implementation AMWaveTransition
 
 #define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
@@ -103,27 +109,27 @@ const CGFloat MAX_DELAY = 0.15;
 
 - (void)detachInteractiveGesture
 {
-    [self.navigationController.view removeGestureRecognizer:self.gesture];
+    UINavigationController *navigationController = self.navigationController;
+    [navigationController.view removeGestureRecognizer:self.gesture];
     self.navigationController = nil;
     self.gesture = nil;
     [self.animator removeAllBehaviors];
     self.animator = nil;
 }
 
-#pragma mark - Interactive Transition
-
 - (void)handlePan:(UIScreenEdgePanGestureRecognizer *)gesture
 {
+    UINavigationController *navigationController = self.navigationController; // support CLANG_WARN_OBJC_RECEIVER_WEAK
+    
     // Starting controller
-    UIViewController<AMWaveTransitioning> *fromVC;
-    fromVC = (UIViewController<AMWaveTransitioning> *)self.navigationController.topViewController;
+    UIViewController *fromVC = navigationController.topViewController;
     
     // Controller that will be visible after the pop
     UIViewController<AMWaveTransitioning> *toVC;
     int index = (int)[self.navigationController.viewControllers indexOfObject:self.navigationController.topViewController];
     // The gesture velocity will also determine the velocity of the cells
-    float velocity = [gesture velocityInView:self.navigationController.view].x;
-    CGPoint touch = [gesture locationInView:self.navigationController.view];
+    float velocity = [gesture velocityInView:navigationController.view].x;
+    CGPoint touch = [gesture locationInView:navigationController.view];
     if (index == 0) {
         // Simple attach animation
         touch.x = 0;
@@ -132,84 +138,57 @@ const CGFloat MAX_DELAY = 0.15;
         toVC = (UIViewController<AMWaveTransitioning> *)self.navigationController.viewControllers[index-1];
     }
     
+    NSArray *fromViews = [self visibleCellsForViewController:fromVC];
+    NSArray *toViews = [self visibleCellsForViewController:toVC];
+    
     if (gesture.state == UIGestureRecognizerStateBegan) {
         if (self.interactiveTransitionType == AMWaveTransitionFullScreenPan) {
             self.firstTouch = touch;
         } else {
             self.firstTouch = CGPointMake(0, 0);
         }
-        if ([fromVC respondsToSelector:@selector(visibleCells)] && [fromVC visibleCells].count > 0) {
-            [[fromVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-                // The 'selected' cell will be the one leading the other cells
-                if (CGRectContainsPoint([view.superview convertRect:view.frame toView:nil], touch)) {
-                    self.selectionIndexFrom = (int)idx;
-                }
-                [self createAttachmentForView:view inVC:AMWaveTransitionFromVC];
-            }];
-        } else {
-            UIView *view = fromVC.view;
-            self.selectionIndexFrom = 0;
+        [fromViews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+            // The 'selected' cell will be the one leading the other cells
+            if (CGRectContainsPoint([view.superview convertRect:view.frame toView:nil], touch)) {
+                self.selectionIndexFrom = (int)idx;
+            }
             [self createAttachmentForView:view inVC:AMWaveTransitionFromVC];
-        }
-        // Kick the 'new' cells outside the view
-        [self.navigationController.view insertSubview:toVC.view belowSubview:self.navigationController.navigationBar];
-        if ([toVC respondsToSelector:@selector(visibleCells)] && [toVC visibleCells].count > 0) {
-            [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-                [self kickCellOutside:view];
-            }];
-        } else if (toVC) {
-            UIView *view = toVC.view;
-            [self kickCellOutside:view];
-        }
+        }];
         
-        if ([toVC respondsToSelector:@selector(visibleCells)] && [toVC visibleCells].count > 0) {
-            [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-                CGRect futureRect = view.frame;
-                futureRect.origin.x = 0;
-                if (CGRectContainsPoint([view.superview convertRect:futureRect toView:nil], touch)) {
-                    self.selectionIndexTo = (int)idx;
-                }
-                [self createAttachmentForView:view inVC:AMWaveTransitionToVC];
-            }];
-        } else if (toVC) {
-            UIView *view = toVC.view;
-            self.selectionIndexTo = 0;
+        
+        // Kick the 'new' cells outside the view
+        [navigationController.view insertSubview:toVC.view belowSubview:navigationController.navigationBar];
+        toViews = [self visibleCellsForViewController:toVC]; // re-read, because toVC might have been not ready before
+        [toViews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+            [self kickCellOutside:view];
+        }];
+        
+        [toViews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+            CGRect futureRect = view.frame;
+            futureRect.origin.x = 0;
+            if (CGRectContainsPoint([view.superview convertRect:futureRect toView:nil], touch)) {
+                self.selectionIndexTo = (int)idx;
+            }
             [self createAttachmentForView:view inVC:AMWaveTransitionToVC];
-            
-        }
+        }];
+        
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
-        if ([fromVC respondsToSelector:@selector(visibleCells)] && [fromVC visibleCells].count > 0) {
-            [[fromVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-                [self changeAttachmentWithIndex:idx
-                                         inView:view
-                                         touchX:touch.x
-                                       velocity:velocity
-                                           inVC:AMWaveTransitionFromVC];
-            }];
-        } else {
-            UIView *view = fromVC.view;
-            [self changeAttachmentWithIndex:0
+        
+        [fromViews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+            [self changeAttachmentWithIndex:idx
                                      inView:view
                                      touchX:touch.x
                                    velocity:velocity
                                        inVC:AMWaveTransitionFromVC];
-        }
-        if ([toVC respondsToSelector:@selector(visibleCells)] && [toVC visibleCells].count > 0) {
-            [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-                [self changeAttachmentWithIndex:idx
-                                         inView:view
-                                         touchX:touch.x
-                                       velocity:velocity
-                                           inVC:AMWaveTransitionToVC];
-            }];
-        } else if (toVC) {
-            UIView *view = toVC.view;
-            [self changeAttachmentWithIndex:0
+        }];
+        
+        [toViews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+            [self changeAttachmentWithIndex:idx
                                      inView:view
                                      touchX:touch.x
                                    velocity:velocity
                                        inVC:AMWaveTransitionToVC];
-        }
+        }];
         
     } else if (gesture.state == UIGestureRecognizerStateEnded || gesture.state == UIGestureRecognizerStateCancelled) {
         [self.attachmentsFrom enumerateObjectsUsingBlock:^(UIAttachmentBehavior *obj, NSUInteger idx, BOOL *stop) {
@@ -222,68 +201,39 @@ const CGFloat MAX_DELAY = 0.15;
         }];
         [self.attachmentsTo removeAllObjects];
         
-        if (gesture.state == UIGestureRecognizerStateEnded && touch.x > self.navigationController.view.frame.size.width * 0.7) {
+        if (gesture.state == UIGestureRecognizerStateEnded && velocity > 0) {
             // Complete the transition
             [UIView animateWithDuration:0.3 animations:^{
-                if ([fromVC respondsToSelector:@selector(visibleCells)] && [fromVC visibleCells].count > 0) {
-                    [[fromVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-                        [self completeFromVC:view];
-                    }];
-                } else {
-                    UIView *view = fromVC.view;
+                [fromViews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
                     [self completeFromVC:view];
-                }
-                if ([toVC respondsToSelector:@selector(visibleCells)] && [toVC visibleCells].count > 0) {
-                    [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-                        [self setPresentedFrameForView:view];
-                    }];
-                } else {
-                    UIView *view = toVC.view;
+                }];
+                [toViews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
                     [self setPresentedFrameForView:view];
-                }
+                }];
             } completion:^(BOOL finished) {
-                if ([toVC respondsToSelector:@selector(visibleCells)] && [toVC visibleCells].count > 0) {
-                    [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-                        [self animationCompletionForInteractiveTransitionForView:view];
-                    }];
-                } else {
-                    UIView *view = toVC.view;
+                [toViews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
                     [self animationCompletionForInteractiveTransitionForView:view];
-                }
+                }];
                 
-                [self.navigationController popViewControllerAnimated:NO];
+                [navigationController popViewControllerAnimated:NO];
             }];
         } else {
             // Abort
             [UIView animateWithDuration:0.3 animations:^{
-                if ([fromVC respondsToSelector:@selector(visibleCells)] && [fromVC visibleCells].count > 0) {
-                    [[fromVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-                        [self setPresentedFrameForView:view];
-                    }];
-                } else {
-                    UIView *view = fromVC.view;
+                [fromViews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
                     [self setPresentedFrameForView:view];
-                }
-                if ([toVC respondsToSelector:@selector(visibleCells)] && [toVC visibleCells].count > 0) {
-                    [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-                        [self completeToVC:view];
-                    }];
-                } else {
-                    UIView *view = toVC.view;
-                    [self completeFromVC:view];
-                }
+                }];
+                [toViews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+                    [self completeToVC:view];
+                }];
             } completion:^(BOOL finished) {
                 // Bring 'silently' the cell back to their place, or the normal pop operation would fail
-                if ([toVC respondsToSelector:@selector(visibleCells)] && [toVC visibleCells].count > 0) {
-                    [[toVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-                        [self animationCompletionForInteractiveTransitionForView:view];
-                    }];
-                } else {
-                    UIView *view = toVC.view;
+                [toViews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
                     [self animationCompletionForInteractiveTransitionForView:view];
-                }
+                }];
                 [toVC.view removeFromSuperview];
             }];
+            
         }
     }
 }
@@ -409,18 +359,18 @@ const CGFloat MAX_DELAY = 0.15;
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext
 {
-    UIViewController<AMWaveTransitioning> *fromVC;
+    UIViewController *fromVC;
     if ([[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey] isKindOfClass:[UINavigationController class]]) {
-        fromVC = (UIViewController<AMWaveTransitioning>*)([(UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey] visibleViewController]);
+        fromVC = (UIViewController*)([(UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey] visibleViewController]);
     } else {
-        fromVC = (UIViewController<AMWaveTransitioning>*)([transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey]);
+        fromVC = (UIViewController*)([transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey]);
     }
     
-    UIViewController<AMWaveTransitioning> *toVC;
+    UIViewController *toVC;
     if ([[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey] isKindOfClass:[UINavigationController class]]) {
-        toVC = (UIViewController<AMWaveTransitioning>*)([(UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey] visibleViewController]);
+        toVC = (UIViewController*)([(UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey] visibleViewController]);
     } else {
-        toVC = (UIViewController<AMWaveTransitioning>*)([transitionContext viewControllerForKey:UITransitionContextToViewControllerKey]);
+        toVC = (UIViewController*)([transitionContext viewControllerForKey:UITransitionContextToViewControllerKey]);
     }
     
     [[transitionContext containerView] addSubview:toVC.view];
@@ -438,14 +388,14 @@ const CGFloat MAX_DELAY = 0.15;
     toVC.view.transform = CGAffineTransformMakeTranslation(delta, 0);
     
     // First step is required to trigger the load of the visible cells.
-    [UIView animateWithDuration:0 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:nil completion:^(BOOL done) {
+    [UIView animateWithDuration:0 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:nil completion:^(BOOL finished) {
         
         // Plain animation that moves the destination controller in place. Once it's done it will notify the transition context
         if (self.operation == UINavigationControllerOperationPush) {
             [toVC.view setTransform:CGAffineTransformMakeTranslation(1, 0)];
             [UIView animateWithDuration:self.duration + self.maxDelay delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
                 [toVC.view setTransform:CGAffineTransformIdentity];
-            } completion:^(BOOL finished) {
+            } completion:^(BOOL finished2) {
                 [transitionContext completeTransition:YES];
             }];
         } else {
@@ -453,66 +403,113 @@ const CGFloat MAX_DELAY = 0.15;
             [toVC.view setTransform:CGAffineTransformIdentity];
             [UIView animateWithDuration:self.duration + self.maxDelay delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
                 [fromVC.view setTransform:CGAffineTransformMakeTranslation(delta, 0)];
-            } completion:^(BOOL finished) {
+            } completion:^(BOOL finished2) {
                 [fromVC.view removeFromSuperview];
                 [transitionContext completeTransition:YES];
             }];
         }
         
-        // Animates the cells of the starting view controller
-        if ([fromVC respondsToSelector:@selector(visibleCells)] && [fromVC visibleCells].count > 0) {
-            [[fromVC visibleCells] enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(UITableViewCell *obj, NSUInteger idx, BOOL *stop) {
-                NSTimeInterval delay = ((float)idx / (float)[[fromVC visibleCells] count]) * self.maxDelay;
-                [self hideView:obj withDelay:delay andDelta:-delta];
-            }];
-        } else {
-            // The controller has no table view, let's animate it gracefully
-            [self hideView:fromVC.view withDelay:0 andDelta:-delta];
-        }
+        NSArray *fromViews = [self visibleCellsForViewController:fromVC];
+        NSArray *toViews = [self visibleCellsForViewController:toVC];
+
+        __block NSArray *currentViews;
+        __block NSUInteger currentVisibleViewsCount;
         
-        if ([toVC respondsToSelector:@selector(visibleCells)] && [toVC visibleCells].count > 0) {
-            [[toVC visibleCells] enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(UITableViewCell *obj, NSUInteger idx, BOOL *stop) {
-                NSTimeInterval delay = ((float)idx / (float)[[toVC visibleCells] count]) * self.maxDelay;
-                [self presentView:obj withDelay:delay andDelta:delta];
-            }];
-        } else {
-            [self presentView:toVC.view withDelay:0 andDelta:delta];
+        void (^cellAnimation)(id, NSUInteger, BOOL*) = ^(UIView *view, NSUInteger idx, BOOL *stop){
+            BOOL fromMode = currentViews == fromViews;
+            NSTimeInterval delay = ((float)idx / (float)currentVisibleViewsCount) * self.maxDelay;
+            if (!fromMode) {
+                [view setTransform:CGAffineTransformMakeTranslation(delta, 0)];
+            }
+            void (^animation)() = ^{
+                if (fromMode) {
+                    view.transform = CGAffineTransformMakeTranslation(-delta, 0);
+                    view.alpha = 0;
+                } else {
+                    view.transform = CGAffineTransformIdentity;
+                    view.alpha = 1;
+                }
+            };
+            void (^completion)(BOOL) = ^(BOOL finished2){
+                if (fromMode) {
+                    [view setTransform:CGAffineTransformIdentity];
+                }
+            };
+            if (self.transitionType == AMWaveTransitionTypeSubtle) {
+                [UIView animateWithDuration:self.duration delay:delay options:UIViewAnimationOptionCurveEaseIn animations:animation completion:completion];
+            } else if (self.transitionType == AMWaveTransitionTypeNervous) {
+                [UIView animateWithDuration:self.duration delay:delay usingSpringWithDamping:0.75 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:animation completion:completion];
+            } else if (self.transitionType == AMWaveTransitionTypeBounce){
+                [UIView animateWithDuration:self.duration delay:delay options:UIViewAnimationOptionCurveEaseInOut animations:animation completion:completion];
+            }
+        };
+        
+
+        currentViews = fromViews;
+        NSArray *viewsArrays = @[fromViews, toViews];
+        
+        for (currentViews in viewsArrays) {
+            // Animates all views
+            currentVisibleViewsCount = currentViews.count;
+            [currentViews enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:cellAnimation];
         }
     }];
 }
 
-- (void)hideView:(UIView *)view withDelay:(NSTimeInterval)delay andDelta:(float)delta
-{
-    void (^animation)() = ^{
-        [view setTransform:CGAffineTransformMakeTranslation(delta, 0)];
-        [view setAlpha:0];
-    };
-    void (^completion)(BOOL) = ^(BOOL finished){
-        [view setTransform:CGAffineTransformIdentity];
-    };
-    if (self.transitionType == AMWaveTransitionTypeSubtle) {
-        [UIView animateWithDuration:self.duration delay:delay options:UIViewAnimationOptionCurveEaseIn animations:animation completion:completion];
-    } else if (self.transitionType == AMWaveTransitionTypeNervous) {
-        [UIView animateWithDuration:self.duration delay:delay usingSpringWithDamping:0.75 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:animation completion:completion];
-    } else if (self.transitionType == AMWaveTransitionTypeBounce){
-        [UIView animateWithDuration:self.duration delay:delay options:UIViewAnimationOptionCurveEaseInOut animations:animation completion:completion];
+- (NSArray*)visibleCellsForViewController:(UIViewController*)viewController {
+    NSArray *visibleCells = nil;
+    
+    if ([viewController respondsToSelector:@selector(visibleCells)]) {
+        visibleCells = ((UIViewController<AMWaveTransitioning>*)viewController).visibleCells;
+    } else if ([viewController respondsToSelector:@selector(tableView)]) {
+        visibleCells = ((UITableViewController*)viewController).tableView.am_visibleViews;
     }
+    return visibleCells.count ? visibleCells : @[viewController.view];
 }
 
-- (void)presentView:(UIView *)view withDelay:(NSTimeInterval)delay andDelta:(float)delta
-{
-    [view setTransform:CGAffineTransformMakeTranslation(delta, 0)];
-    void (^animation)() = ^{
-        [view setTransform:CGAffineTransformIdentity];
-        [view setAlpha:1];
-    };
-    if (self.transitionType == AMWaveTransitionTypeSubtle) {
-        [UIView animateWithDuration:self.duration delay:delay options:UIViewAnimationOptionCurveEaseIn animations:animation completion:nil];
-    } else if (self.transitionType == AMWaveTransitionTypeNervous) {
-        [UIView animateWithDuration:self.duration delay:delay usingSpringWithDamping:0.75 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:animation completion:nil];
-    } else if (self.transitionType == AMWaveTransitionTypeBounce){
-        [UIView animateWithDuration:self.duration delay:delay options:UIViewAnimationOptionCurveEaseInOut animations:animation completion:nil];
+@end
+
+@implementation UITableView (AMWaveTransition)
+
+- (NSArray*)am_visibleViews {
+    NSMutableArray *views = [NSMutableArray array];
+    
+    if (self.tableHeaderView.frame.size.height) {
+        [views addObject:self.tableHeaderView];
     }
+    
+    NSInteger section = -1;
+    for (NSIndexPath *indexPath in self.indexPathsForVisibleRows) {
+        if (section != indexPath.section) {
+            section = indexPath.section;
+            UIView *view = [self headerViewForSection:section];
+            if (view.frame.size.height) {
+                [views addObject:view];
+            }
+            
+            for (NSIndexPath *sectionIndexPath in self.indexPathsForVisibleRows) {
+                if (sectionIndexPath.section != indexPath.section) {
+                    continue;
+                }
+                
+                view = [self cellForRowAtIndexPath:sectionIndexPath];
+                if (view.frame.size.height) {
+                    [views addObject:view];
+                }
+            }
+            
+            view = [self footerViewForSection:section];
+            if (view.frame.size.height) {
+                [views addObject:view];
+            }
+        }
+    }
+    
+    if (self.tableFooterView.frame.size.height) {
+        [views addObject:self.tableFooterView];
+    }
+    
+    return views;
 }
 
 @end
