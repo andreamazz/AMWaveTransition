@@ -34,10 +34,12 @@ typedef NS_ENUM(NSInteger, AMWaveTransitionViewControllers) {
 const CGFloat DURATION = 0.65;
 const CGFloat MAX_DELAY = 0.15;
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
+- (void)dealloc {
+    [self detachInteractiveGesture];
+}
+
+- (instancetype)init {
+    if ((self = [super init])) {
         [self setup];
         _operation = UINavigationControllerOperationNone;
         _transitionType = AMWaveTransitionTypeNervous;
