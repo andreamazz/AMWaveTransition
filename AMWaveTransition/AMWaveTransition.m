@@ -126,7 +126,7 @@ const CGFloat MAX_DELAY = 0.15;
     
     // Controller that will be visible after the pop
     UIViewController<AMWaveTransitioning> *toVC;
-    int index = (int)[self.navigationController.viewControllers indexOfObject:self.navigationController.topViewController];
+    int index = (int)[navigationController.viewControllers indexOfObject:navigationController.topViewController];
     // The gesture velocity will also determine the velocity of the cells
     float velocity = [gesture velocityInView:navigationController.view].x;
     CGPoint touch = [gesture locationInView:navigationController.view];
@@ -135,7 +135,7 @@ const CGFloat MAX_DELAY = 0.15;
         touch.x = 0;
         toVC = nil;
     } else {
-        toVC = (UIViewController<AMWaveTransitioning> *)self.navigationController.viewControllers[index-1];
+        toVC = (UIViewController<AMWaveTransitioning> *)navigationController.viewControllers[index-1];
     }
     
     NSArray *fromViews = [self visibleCellsForViewController:fromVC];
@@ -243,8 +243,9 @@ const CGFloat MAX_DELAY = 0.15;
 {
     CGRect rect = view.frame;
     rect.origin.x = 0;
-    if (self.navigationController.navigationBar.translucent && !self.navigationController.navigationBar.hidden) {
-        rect.origin.y -= self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
+    UINavigationController *navigationController = self.navigationController;
+    if (navigationController.navigationBar.translucent && !navigationController.navigationBar.hidden) {
+        rect.origin.y -= navigationController.navigationBar.frame.origin.y + navigationController.navigationBar.frame.size.height;
     }
     view.frame = rect;
     view.alpha = [self alphaForView:view];
@@ -263,8 +264,9 @@ const CGFloat MAX_DELAY = 0.15;
 {
     CGRect rect = view.frame;
     rect.origin.x = -SCREEN_WIDTH - self.viewControllersInset;
-    if (self.navigationController.navigationBar.translucent) {
-        rect.origin.y += self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
+    UINavigationController *navigationController = self.navigationController;
+    if (navigationController.navigationBar.translucent) {
+        rect.origin.y += navigationController.navigationBar.frame.origin.y + navigationController.navigationBar.frame.size.height;
     }
     view.alpha = [self alphaForView:view];
     view.frame = rect;
