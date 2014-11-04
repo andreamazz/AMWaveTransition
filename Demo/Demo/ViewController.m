@@ -75,11 +75,6 @@
     return nil;
 }
 
-- (NSArray*)visibleCells
-{
-    return [self.tableView visibleCells];
-}
-
 - (void)dealloc
 {
     [self.navigationController setDelegate:nil];
