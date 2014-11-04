@@ -89,49 +89,42 @@ typedef NS_ENUM(NSInteger, AMWaveInteractiveTransitionType) {
 /** Operation type
  *
  * Sets the operation type (push or pop)
- *
  */
 @property (assign, nonatomic) UINavigationControllerOperation operation;
 
 /** Transition type
  *
  * Sets the transition style
- *
  */
 @property (assign, nonatomic) AMWaveTransitionType transitionType;
 
 /** Animation duration
  *
  * Sets the duration of the animation. The whole duration accounts for the maxDelay property.
- *
  */
 @property (assign, nonatomic) CGFloat duration;
 
 /** Maximum animation delay
  *
  * Sets the max delay that a cell will wait beofre animating.
- *
  */
 @property (assign, nonatomic) CGFloat maxDelay;
 
 /** Inset between view controllers
  *
- * Sets the inset between view controllers.
- *
+ * Sets the inset between view controllers. Defaults to 20 points.
  */
 @property (assign, nonatomic) CGFloat viewControllersInset;
 
 /** Alpha animation with interactive transition
  *
- * Turn on/off alpha animation with interactive transition.
- *
+ * Turn on/off alpha animation with interactive transition. Defaults to NO.
  */
 @property (assign, nonatomic) BOOL animateAlphaWithInteractiveTransition;
 
 /** Interactive transition type
  *
- * Sets interactive transition type (edge or fullscreen).
- *
+ * Sets interactive transition type (edge or fullscreen). Defaults to edge.
  */
 @property (assign, nonatomic) AMWaveInteractiveTransitionType interactiveTransitionType;
 

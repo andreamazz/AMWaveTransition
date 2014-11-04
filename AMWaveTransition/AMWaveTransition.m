@@ -134,7 +134,7 @@ const CGFloat MAX_DELAY = 0.15;
         if (self.interactiveTransitionType == AMWaveTransitionFullScreenPan) {
             self.firstTouch = touch;
         } else {
-            self.firstTouch = CGPointMake(0, 0);
+            self.firstTouch = CGPointZero;
         }
         if ([fromVC respondsToSelector:@selector(visibleCells)] && [fromVC visibleCells].count > 0) {
             [[fromVC visibleCells] enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
