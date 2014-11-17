@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A343f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="60y-Ty-eKT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B23" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="60y-Ty-eKT">
     <dependencies>
-        <deployment defaultVersion="1808" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -227,7 +227,7 @@
                                     <outlet property="delegate" destination="bcz-dT-jtY" id="NZ8-W5-Dcz"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R8m-4z-tEP">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R8m-4z-tEP">
                                 <rect key="frame" x="0.0" y="65" width="320" height="120"/>
                                 <subviews>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W3J-6v-j1h">
@@ -244,11 +244,16 @@
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="AFA-Pl-OgD"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="R8m-4z-tEP" firstAttribute="leading" secondItem="j7o-cU-Ai5" secondAttribute="leading" id="fLz-4A-jeG"/>
                             <constraint firstItem="R8m-4z-tEP" firstAttribute="top" secondItem="sHu-09-yqI" secondAttribute="bottom" constant="1" id="pXp-ui-c3s"/>
+                            <constraint firstAttribute="trailing" secondItem="R8m-4z-tEP" secondAttribute="trailing" id="zpK-mv-Djn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="G6M-Ia-ZJm"/>

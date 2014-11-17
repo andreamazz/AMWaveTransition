@@ -411,7 +411,7 @@ const CGFloat MAX_DELAY = 0.15;
             [fromVC.view setTransform:CGAffineTransformMakeTranslation(1, 0)];
             [toVC.view setTransform:CGAffineTransformIdentity];
             [UIView animateWithDuration:self.duration + self.maxDelay delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                [fromVC.view setTransform:CGAffineTransformMakeTranslation(delta, 0)];
+                [fromVC.view setTransform:CGAffineTransformMakeTranslation(0, 0)];
             } completion:^(BOOL finished2) {
                 [fromVC.view removeFromSuperview];
                 [transitionContext completeTransition:YES];
