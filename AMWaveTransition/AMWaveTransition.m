@@ -126,7 +126,7 @@ const CGFloat MAX_DELAY = 0.15;
     
     // Controller that will be visible after the pop
     UIViewController<AMWaveTransitioning> *toVC;
-    int index = (int)[navigationController.viewControllers indexOfObject:navigationController.topViewController];
+    NSInteger index = [navigationController.viewControllers indexOfObject:navigationController.topViewController];
     // The gesture velocity will also determine the velocity of the cells
     float velocity = [gesture velocityInView:navigationController.view].x;
     CGPoint touch = [gesture locationInView:navigationController.view];
@@ -134,7 +134,7 @@ const CGFloat MAX_DELAY = 0.15;
         // Simple attach animation
         touch.x = 0;
         toVC = nil;
-    } else {
+    } else if (index != NSNotFound) {
         toVC = (UIViewController<AMWaveTransitioning> *)navigationController.viewControllers[index-1];
     }
     
@@ -467,7 +467,8 @@ const CGFloat MAX_DELAY = 0.15;
     }];
 }
 
-- (NSArray*)visibleCellsForViewController:(UIViewController*)viewController {
+- (NSArray *)visibleCellsForViewController:(UIViewController*)viewController
+{
     NSArray *visibleCells = nil;
     
     if ([viewController respondsToSelector:@selector(visibleCells)]) {
@@ -475,7 +476,12 @@ const CGFloat MAX_DELAY = 0.15;
     } else if ([viewController respondsToSelector:@selector(tableView)]) {
         visibleCells = ((UITableViewController*)viewController).tableView.am_visibleViews;
     }
-    return visibleCells.count ? visibleCells : @[viewController.view];
+    if (visibleCells.count) {
+        return visibleCells;
+    } else if (viewController.view) {
+        return @[viewController.view];
+    }
+    return nil;
 }
 
 @end
