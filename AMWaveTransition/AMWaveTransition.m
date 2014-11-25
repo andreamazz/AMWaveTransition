@@ -391,8 +391,6 @@ const CGFloat MAX_DELAY = 0.15;
     toVC.view.transform = CGAffineTransformMakeTranslation(delta, 0);
     
     [transitionContext containerView].backgroundColor = fromVC.view.backgroundColor;
-    fromVC.view.backgroundColor = UIColor.clearColor;
-    toVC.view.backgroundColor = UIColor.clearColor;
     
     // First step is required to trigger the load of the visible cells.
     [UIView animateWithDuration:0 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:nil completion:^(BOOL finished) {
@@ -403,8 +401,6 @@ const CGFloat MAX_DELAY = 0.15;
             [UIView animateWithDuration:self.duration + self.maxDelay delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
                 [toVC.view setTransform:CGAffineTransformIdentity];
             } completion:^(BOOL finished2) {
-                toVC.view.backgroundColor = [transitionContext containerView].backgroundColor;
-                [transitionContext containerView].backgroundColor = UIColor.clearColor;
                 [transitionContext completeTransition:YES];
             }];
         } else {
@@ -415,8 +411,6 @@ const CGFloat MAX_DELAY = 0.15;
             } completion:^(BOOL finished2) {
                 [fromVC.view removeFromSuperview];
                 [transitionContext completeTransition:YES];
-                toVC.view.backgroundColor = [transitionContext containerView].backgroundColor;
-                [transitionContext containerView].backgroundColor = UIColor.clearColor;
             }];
         }
         
