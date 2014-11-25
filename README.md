@@ -1,5 +1,4 @@
-##AMWaveTransition
-================
+#AMWaveTransition
 
 [![Build Status](https://travis-ci.org/andreamazz/AMWaveTransition.png)](https://travis-ci.org/andreamazz/AMWaveTransition)
 [![Cocoapods](https://cocoapod-badges.herokuapp.com/v/AMWaveTransition/badge.png)](http://cocoapods.org/?q=amwavetransition)
