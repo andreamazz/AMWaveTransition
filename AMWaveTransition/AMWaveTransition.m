@@ -246,6 +246,8 @@ const CGFloat MAX_DELAY = 0.15;
     UINavigationController *navigationController = self.navigationController;
     if (navigationController.navigationBar.translucent && !navigationController.navigationBar.hidden) {
         rect.origin.y -= navigationController.navigationBar.frame.origin.y + navigationController.navigationBar.frame.size.height;
+    } else {
+        rect.origin.y -= [[UIApplication sharedApplication] statusBarFrame].size.height;
     }
     view.frame = rect;
     view.alpha = [self alphaForView:view];
@@ -265,8 +267,10 @@ const CGFloat MAX_DELAY = 0.15;
     CGRect rect = view.frame;
     rect.origin.x = -SCREEN_WIDTH - self.viewControllersInset;
     UINavigationController *navigationController = self.navigationController;
-    if (navigationController.navigationBar.translucent) {
+    if (navigationController.navigationBar.translucent && !navigationController.navigationBar.hidden) {
         rect.origin.y += navigationController.navigationBar.frame.origin.y + navigationController.navigationBar.frame.size.height;
+    } else {
+        rect.origin.y += [[UIApplication sharedApplication] statusBarFrame].size.height;
     }
     view.alpha = [self alphaForView:view];
     view.frame = rect;
