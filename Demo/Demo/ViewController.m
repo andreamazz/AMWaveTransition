@@ -22,7 +22,7 @@
 {
     [super viewDidLoad];
     
-    [self.navigationController.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"background"]]];
+    [self.navigationController.view setBackgroundColor:[UIColor colorWithRed:0.91 green:0.6 blue:0.21 alpha:1]];
 	[self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navbar"] forBarMetrics:UIBarMetricsDefault];
     [self.view setBackgroundColor:[UIColor clearColor]];
     [self.tableView setBackgroundColor:[UIColor clearColor]];

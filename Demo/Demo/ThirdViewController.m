@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (assign, nonatomic) AMWaveTransitionType animationType;
 @property (strong, nonatomic) IBOutlet AMWaveTransition *interactive;
+@property (weak, nonatomic) IBOutlet UISwitch *animationSwitch;
 
 @end
 
@@ -29,6 +30,8 @@
     [self.tableView setBackgroundColor:[UIColor clearColor]];
     _interactive = [[AMWaveTransition alloc] init];
     self.animationType = AMWaveTransitionTypeNervous;
+    self.tableView.contentInset = UIEdgeInsetsMake(-68, 0, 0, 0);
+    self.animationSwitch.onTintColor = [UIColor colorWithRed:0.91 green:0.6 blue:0.21 alpha:1];
 }
 
 - (void)viewDidAppear:(BOOL)animated

@@ -10,6 +10,7 @@
 		6509E34D18FF0CEE0054FD6F /* AMWaveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6509E34C18FF0CEE0054FD6F /* AMWaveViewController.m */; };
 		65A0940D1912473100596A86 /* FourthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A0940C1912473100596A86 /* FourthViewController.m */; };
 		65BD291219114A28002AC110 /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BD291119114A28002AC110 /* ThirdViewController.m */; };
+		65BD9C581A2DB45900BD0DC5 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BD9C571A2DB45900BD0DC5 /* Launch Screen.xib */; };
 		65E0370A18FE6BE200EFA799 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65E0370918FE6BE200EFA799 /* Foundation.framework */; };
 		65E0370C18FE6BE200EFA799 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65E0370B18FE6BE200EFA799 /* CoreGraphics.framework */; };
 		65E0370E18FE6BE200EFA799 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65E0370D18FE6BE200EFA799 /* UIKit.framework */; };
@@ -45,6 +46,7 @@
 		65A0940C1912473100596A86 /* FourthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FourthViewController.m; sourceTree = "<group>"; };
 		65BD291019114A28002AC110 /* ThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdViewController.h; sourceTree = "<group>"; };
 		65BD291119114A28002AC110 /* ThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdViewController.m; sourceTree = "<group>"; };
+		65BD9C571A2DB45900BD0DC5 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		65E0370618FE6BE200EFA799 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65E0370918FE6BE200EFA799 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		65E0370B18FE6BE200EFA799 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -150,6 +152,7 @@
 				65E0371818FE6BE200EFA799 /* AppDelegate.h */,
 				65E0371918FE6BE200EFA799 /* AppDelegate.m */,
 				65E0371B18FE6BE200EFA799 /* Main.storyboard */,
+				65BD9C571A2DB45900BD0DC5 /* Launch Screen.xib */,
 				65E0372118FE6BE200EFA799 /* Images.xcassets */,
 				65E0371018FE6BE200EFA799 /* Supporting Files */,
 			);
@@ -275,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				65E0372218FE6BE200EFA799 /* Images.xcassets in Resources */,
+				65BD9C581A2DB45900BD0DC5 /* Launch Screen.xib in Resources */,
 				65E0371418FE6BE200EFA799 /* InfoPlist.strings in Resources */,
 				65E0371D18FE6BE200EFA799 /* Main.storyboard in Resources */,
 			);
