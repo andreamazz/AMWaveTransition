@@ -1,4 +1,6 @@
-#AMWaveTransition
+<p align="center">
+  <img src="assets/logo.png"/>
+</p>
 
 [![Build Status](https://travis-ci.org/andreamazz/AMWaveTransition.png)](https://travis-ci.org/andreamazz/AMWaveTransition)
 [![Cocoapods](https://cocoapod-badges.herokuapp.com/v/AMWaveTransition/badge.png)](http://cocoapods.org/?q=amwavetransition)
@@ -10,7 +12,7 @@ Read more about transitions [here](http://andreamazz.github.io/blog/2014/04/19/t
 
 ###Screenshot 
 
-![AMWaveTransition](https://raw.githubusercontent.com/andreamazz/AMWaveTransition/master/screenshot.gif)
+![AMWaveTransition](https://raw.githubusercontent.com/andreamazz/AMWaveTransition/master/assets/screenshot.gif)
 
 Getting Started
 =================
