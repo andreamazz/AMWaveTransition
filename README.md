@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="320" height="240" src="assets/logo.png"/>
+  <img width="640" height="240" src="assets/logo.png"/>
 </p>
 
 [![Build Status](https://travis-ci.org/andreamazz/AMWaveTransition.png)](https://travis-ci.org/andreamazz/AMWaveTransition)
