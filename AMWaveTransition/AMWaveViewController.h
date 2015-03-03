@@ -10,4 +10,6 @@
 
 @interface AMWaveViewController : UIViewController
 
+- (NSArray*)visibleCells;
+
 @end
