@@ -6,10 +6,12 @@
 //  Copyright (c) 2014 Fancy Pixel. All rights reserved.
 //
 
+#import "AMWaveTransition.h"
+
 @import UIKit;
 
-@interface AMWaveViewController : UIViewController
+@interface AMWaveViewController : UIViewController <UINavigationControllerDelegate, AMWaveTransitioning>
 
-- (NSArray*)visibleCells;
+@property (strong, nonatomic) IBOutlet AMWaveTransition *interactive;
 
 @end

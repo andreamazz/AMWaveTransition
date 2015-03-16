@@ -7,11 +7,8 @@
 //
 
 #import "AMWaveViewController.h"
-#import "AMWaveTransition.h"
 
-@interface AMWaveViewController () <UINavigationControllerDelegate, AMWaveTransitioning>
-
-@property (strong, nonatomic) IBOutlet AMWaveTransition *interactive;
+@interface AMWaveViewController ()
 
 @end
 
@@ -46,7 +43,7 @@
     return nil;
 }
 
-- (NSArray*)visibleCells
+- (NSArray *)visibleCells
 {
     return nil;
 }
