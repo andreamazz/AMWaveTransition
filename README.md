@@ -4,7 +4,6 @@
 
 [![Build Status](https://travis-ci.org/andreamazz/AMWaveTransition.png)](https://travis-ci.org/andreamazz/AMWaveTransition)
 [![Cocoapods](https://cocoapod-badges.herokuapp.com/v/AMWaveTransition/badge.png)](http://cocoapods.org/?q=amwavetransition)
-[![Analytics](https://ga-beacon.appspot.com/UA-42282237-8/AMWaveTransition/README)](https://github.com/igrigorik/ga-beacon)
 [![Flattr](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/thing/2977459/andreamazzAMWaveTransition-on-GitHub)
 
 Custom transition between viewcontrollers holding tableviews. Each cell is animated to simulate a 'wave effect'.  
