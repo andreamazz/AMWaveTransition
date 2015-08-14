@@ -23,7 +23,7 @@ Read more about transitions [here](http://andreamazz.github.io/blog/2014/04/19/t
 * Run ```pod install```
 * Run ```open App.xcworkspace```
 
-##Install with Cocoapods
+##Install with Carthage
 ```
 github "andreamazz/AMWaveTransition"
 ```
