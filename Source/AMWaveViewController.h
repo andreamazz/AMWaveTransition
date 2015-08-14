@@ -3,7 +3,7 @@
 //  Demo
 //
 //  Created by Andrea Mazzini on 16/04/14.
-//  Copyright (c) 2014 Fancy Pixel. All rights reserved.
+//  Copyright (c) 2015 Fancy Pixel. All rights reserved.
 //
 
 #import "AMWaveTransition.h"
@@ -12,6 +12,15 @@
 
 @interface AMWaveViewController : UIViewController <UINavigationControllerDelegate, AMWaveTransitioning>
 
+/**-----------------------------------------------------------------------------
+ * @name AMWaveViewController
+ * -----------------------------------------------------------------------------
+ */
+
+/** Wave transition
+ *
+ * The AMWaveTranstion used by the controller
+ */
 @property (strong, nonatomic) IBOutlet AMWaveTransition *interactive;
 
 @end
