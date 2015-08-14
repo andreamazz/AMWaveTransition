@@ -17,11 +17,16 @@ Read more about transitions [here](http://andreamazz.github.io/blog/2014/04/19/t
 
 #Getting Started
 
-##Install 
+##Install with Cocoapods
 
 * Add ```pod 'AMWaveTransition'``` to your [Podfile](http://cocoapods.org/)
 * Run ```pod install```
 * Run ```open App.xcworkspace```
+
+##Install with Cocoapods
+```
+github "andreamazz/AMWaveTransition"
+```
 
 ##Setup as superclass 
 
