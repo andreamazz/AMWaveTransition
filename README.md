@@ -14,8 +14,7 @@ Read more about transitions [here](http://andreamazz.github.io/blog/2014/04/19/t
 
 ![AMWaveTransition](https://raw.githubusercontent.com/andreamazz/AMWaveTransition/master/assets/screenshot.gif)
 
-Getting Started
-=================
+##Getting Started
 
 ###Install 
 
@@ -94,6 +93,8 @@ If the view controller you are transitioning to has no table view, don't impleme
 
 As you can see in the sample project, the best results are obtained by setting the view and the cells' background to ```clearColor```, and setting a background color or a background image to the navigation controller.
 
+#Author
+[Andrea Mazzini](https://twitter.com/theandreamazz)
 
 ###MIT License
 
