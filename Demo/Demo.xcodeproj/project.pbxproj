@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6509E34D18FF0CEE0054FD6F /* AMWaveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6509E34C18FF0CEE0054FD6F /* AMWaveViewController.m */; };
+		659633971B7E0887000CF7B3 /* AMWaveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 659633941B7E0887000CF7B3 /* AMWaveTransition.m */; };
+		659633981B7E0887000CF7B3 /* AMWaveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 659633961B7E0887000CF7B3 /* AMWaveViewController.m */; };
 		65A0940D1912473100596A86 /* FourthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A0940C1912473100596A86 /* FourthViewController.m */; };
 		65BD291219114A28002AC110 /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BD291119114A28002AC110 /* ThirdViewController.m */; };
 		65BD9C581A2DB45900BD0DC5 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BD9C571A2DB45900BD0DC5 /* Launch Screen.xib */; };
@@ -25,7 +26,6 @@
 		65E0372B18FE6BE200EFA799 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65E0370D18FE6BE200EFA799 /* UIKit.framework */; };
 		65E0373318FE6BE200EFA799 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65E0373118FE6BE200EFA799 /* InfoPlist.strings */; };
 		65E0373518FE6BE200EFA799 /* DemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E0373418FE6BE200EFA799 /* DemoTests.m */; };
-		65E0374118FE6C2500EFA799 /* AMWaveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E0374018FE6C2500EFA799 /* AMWaveTransition.m */; };
 		65E0374418FE6CC200EFA799 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E0374318FE6CC200EFA799 /* SecondViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -40,8 +40,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6509E34B18FF0CEE0054FD6F /* AMWaveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMWaveViewController.h; sourceTree = "<group>"; };
-		6509E34C18FF0CEE0054FD6F /* AMWaveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMWaveViewController.m; sourceTree = "<group>"; };
+		659633931B7E0887000CF7B3 /* AMWaveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMWaveTransition.h; path = ../Source/AMWaveTransition.h; sourceTree = "<group>"; };
+		659633941B7E0887000CF7B3 /* AMWaveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMWaveTransition.m; path = ../Source/AMWaveTransition.m; sourceTree = "<group>"; };
+		659633951B7E0887000CF7B3 /* AMWaveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMWaveViewController.h; path = ../Source/AMWaveViewController.h; sourceTree = "<group>"; };
+		659633961B7E0887000CF7B3 /* AMWaveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMWaveViewController.m; path = ../Source/AMWaveViewController.m; sourceTree = "<group>"; };
 		65A0940B1912473100596A86 /* FourthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FourthViewController.h; sourceTree = "<group>"; };
 		65A0940C1912473100596A86 /* FourthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FourthViewController.m; sourceTree = "<group>"; };
 		65BD291019114A28002AC110 /* ThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdViewController.h; sourceTree = "<group>"; };
@@ -66,8 +68,6 @@
 		65E0373018FE6BE200EFA799 /* DemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DemoTests-Info.plist"; sourceTree = "<group>"; };
 		65E0373218FE6BE200EFA799 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		65E0373418FE6BE200EFA799 /* DemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoTests.m; sourceTree = "<group>"; };
-		65E0373F18FE6C2500EFA799 /* AMWaveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMWaveTransition.h; sourceTree = "<group>"; };
-		65E0374018FE6C2500EFA799 /* AMWaveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMWaveTransition.m; sourceTree = "<group>"; };
 		65E0374218FE6CC200EFA799 /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		65E0374318FE6CC200EFA799 /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -191,10 +191,10 @@
 		65E0373E18FE6C2500EFA799 /* AMWaveTransition */ = {
 			isa = PBXGroup;
 			children = (
-				65E0373F18FE6C2500EFA799 /* AMWaveTransition.h */,
-				65E0374018FE6C2500EFA799 /* AMWaveTransition.m */,
-				6509E34B18FF0CEE0054FD6F /* AMWaveViewController.h */,
-				6509E34C18FF0CEE0054FD6F /* AMWaveViewController.m */,
+				659633931B7E0887000CF7B3 /* AMWaveTransition.h */,
+				659633941B7E0887000CF7B3 /* AMWaveTransition.m */,
+				659633951B7E0887000CF7B3 /* AMWaveViewController.h */,
+				659633961B7E0887000CF7B3 /* AMWaveViewController.m */,
 			);
 			name = AMWaveTransition;
 			path = ../../AMWaveTransition;
@@ -316,13 +316,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				659633971B7E0887000CF7B3 /* AMWaveTransition.m in Sources */,
+				659633981B7E0887000CF7B3 /* AMWaveViewController.m in Sources */,
 				65A0940D1912473100596A86 /* FourthViewController.m in Sources */,
 				65E0374418FE6CC200EFA799 /* SecondViewController.m in Sources */,
 				65E0372018FE6BE200EFA799 /* ViewController.m in Sources */,
-				65E0374118FE6C2500EFA799 /* AMWaveTransition.m in Sources */,
 				65E0371A18FE6BE200EFA799 /* AppDelegate.m in Sources */,
 				65E0371618FE6BE200EFA799 /* main.m in Sources */,
-				6509E34D18FF0CEE0054FD6F /* AMWaveViewController.m in Sources */,
 				65BD291219114A28002AC110 /* ThirdViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

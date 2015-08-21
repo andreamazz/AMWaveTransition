@@ -4,6 +4,7 @@
 
 [![Build Status](https://travis-ci.org/andreamazz/AMWaveTransition.png)](https://travis-ci.org/andreamazz/AMWaveTransition)
 [![Cocoapods](https://cocoapod-badges.herokuapp.com/v/AMWaveTransition/badge.png)](http://cocoapods.org/?q=amwavetransition)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Flattr](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/thing/2977459/andreamazzAMWaveTransition-on-GitHub)
 
 Custom transition between viewcontrollers holding tableviews. Each cell is animated to simulate a 'wave effect'.  
@@ -14,19 +15,24 @@ Read more about transitions [here](http://andreamazz.github.io/blog/2014/04/19/t
 
 ![AMWaveTransition](https://raw.githubusercontent.com/andreamazz/AMWaveTransition/master/assets/screenshot.gif)
 
-##Getting Started
+#Getting Started
 
-###Install 
+##Install with Cocoapods
 
 * Add ```pod 'AMWaveTransition'``` to your [Podfile](http://cocoapods.org/)
 * Run ```pod install```
 * Run ```open App.xcworkspace```
 
-###Setup as superclass 
+##Install with Carthage
+```
+github "andreamazz/AMWaveTransition"
+```
+
+##Setup as superclass 
 
 * Subclass ```AMWaveViewController``` and override ```visibleCells``` or follow these steps:
 
-###Setup manually 
+##Setup manually 
 
 Implement ```UINavigationControllerDelegate``` and this delegate method:
 ```objc
@@ -64,7 +70,7 @@ Implement th ```AMWaveTransitioning``` protocol by returning your tableview's vi
 }
 ```
 
-###Interactive gesture 
+##Interactive gesture 
 
 To implement the interactive gesture create a new property in your view controller:
 ```objc
@@ -96,11 +102,11 @@ As you can see in the sample project, the best results are obtained by setting t
 #Author
 [Andrea Mazzini](https://twitter.com/theandreamazz)
 
-###MIT License
+#MIT License
 
     The MIT License (MIT)
 
-    Copyright (c) 2014 Andrea Mazzini
+    Copyright (c) 2015 Andrea Mazzini
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of
     this software and associated documentation files (the "Software"), to deal in
