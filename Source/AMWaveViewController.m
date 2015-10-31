@@ -3,7 +3,7 @@
 //  Demo
 //
 //  Created by Andrea Mazzini on 16/04/14.
-//  Copyright (c) 2014 Fancy Pixel. All rights reserved.
+//  Copyright (c) 2015 Fancy Pixel. All rights reserved.
 //
 
 #import "AMWaveViewController.h"
@@ -14,20 +14,17 @@
 
 @implementation AMWaveViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.navigationController setDelegate:self];
     [self.interactive attachInteractiveGestureToNavigationController:self.navigationController];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self.interactive detachInteractiveGesture];
 }
@@ -35,21 +32,18 @@
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
                                   animationControllerForOperation:(UINavigationControllerOperation)operation
                                                fromViewController:(UIViewController*)fromVC
-                                                 toViewController:(UIViewController*)toVC
-{
+                                                 toViewController:(UIViewController*)toVC {
     if (operation != UINavigationControllerOperationNone) {
         return [AMWaveTransition transitionWithOperation:operation andTransitionType:AMWaveTransitionTypeNervous];
     }
     return nil;
 }
 
-- (NSArray *)visibleCells
-{
+- (NSArray *)visibleCells {
     return nil;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self.navigationController setDelegate:nil];
 }
 

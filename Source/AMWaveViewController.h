@@ -8,14 +8,13 @@
 
 #import "AMWaveTransition.h"
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 
-@interface AMWaveViewController : UIViewController <UINavigationControllerDelegate, AMWaveTransitioning>
-
-/**-----------------------------------------------------------------------------
+/**
  * @name AMWaveViewController
- * -----------------------------------------------------------------------------
+ * UIViewController subclass that implements the custom transition
  */
+@interface AMWaveViewController : UIViewController <UINavigationControllerDelegate, AMWaveTransitioning>
 
 /** Wave transition
  *

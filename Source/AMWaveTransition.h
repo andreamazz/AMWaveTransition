@@ -8,9 +8,9 @@
 
 @import UIKit;
 
-/**-----------------------------------------------------------------------------
+/**
  * @name AMWaveTransitioning
- * -----------------------------------------------------------------------------
+ * Delegate protocol for AMWaveTransition
  */
 @protocol AMWaveTransitioning <NSObject>
 
@@ -29,8 +29,11 @@
  * Enum that specifies the type of animation
  */
 typedef NS_ENUM(NSInteger, AMWaveTransitionType) {
+    /** Smooth transition */
     AMWaveTransitionTypeSubtle,
+    /** Springy transition */
     AMWaveTransitionTypeNervous,
+    /** Spring transition with looser springs */
     AMWaveTransitionTypeBounce
 };
 
@@ -39,16 +42,17 @@ typedef NS_ENUM(NSInteger, AMWaveTransitionType) {
  * Enum that specifies the transition type
  */
 typedef NS_ENUM(NSInteger, AMWaveInteractiveTransitionType) {
+    /** The transition needs to start from the edge */
     AMWaveTransitionEdgePan,
-    AMWaveTransitionFullScreenPan,
+    /** The transition can start from anywhere */
+    AMWaveTransitionFullScreenPan
 };
 
-@interface AMWaveTransition : NSObject <UIViewControllerAnimatedTransitioning>
-
-/**-----------------------------------------------------------------------------
+/**
  * @name AMWaveTransition
- * -----------------------------------------------------------------------------
+ * Custom transition between viewcontrollers holding tableviews. Each cell is animated to simulate a 'wave effect'.
  */
+@interface AMWaveTransition : NSObject <UIViewControllerAnimatedTransitioning>
 
 /** New transition
  *
@@ -99,9 +103,8 @@ typedef NS_ENUM(NSInteger, AMWaveInteractiveTransitionType) {
  */
 - (void)detachInteractiveGesture;
 
-/**-----------------------------------------------------------------------------
+/**
  * @name AMWaveTransition Properties
- * -----------------------------------------------------------------------------
  */
 
 /** Operation type
