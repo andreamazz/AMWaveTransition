@@ -397,7 +397,7 @@ const CGFloat MAX_DELAY = 0.15;
     [transitionContext containerView].backgroundColor = fromVC.view.backgroundColor;
     
     // First step is required to trigger the load of the visible cells.
-    [UIView animateWithDuration:0 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:nil completion:^(BOOL finished) {
+    [UIView animateWithDuration:0 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{} completion:^(BOOL finished) {
         
         // Plain animation that moves the destination controller in place. Once it's done it will notify the transition context
         if (self.operation == UINavigationControllerOperationPush) {

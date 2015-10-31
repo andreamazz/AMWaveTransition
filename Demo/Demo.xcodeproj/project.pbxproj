@@ -49,7 +49,7 @@
 		65BD291019114A28002AC110 /* ThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdViewController.h; sourceTree = "<group>"; };
 		65BD291119114A28002AC110 /* ThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdViewController.m; sourceTree = "<group>"; };
 		65BD9C571A2DB45900BD0DC5 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
-		65E0370618FE6BE200EFA799 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		65E0370618FE6BE200EFA799 /* WaveTransition.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaveTransition.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65E0370918FE6BE200EFA799 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		65E0370B18FE6BE200EFA799 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		65E0370D18FE6BE200EFA799 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -127,7 +127,7 @@
 		65E0370718FE6BE200EFA799 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				65E0370618FE6BE200EFA799 /* Demo.app */,
+				65E0370618FE6BE200EFA799 /* WaveTransition.app */,
 				65E0372718FE6BE200EFA799 /* DemoTests.xctest */,
 			);
 			name = Products;
@@ -147,13 +147,11 @@
 		65E0370F18FE6BE200EFA799 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				65EBDB8E1BE5030200A13244 /* Resources */,
 				65E0373E18FE6C2500EFA799 /* AMWaveTransition */,
 				65A0940E19124A5500596A86 /* ViewControllers */,
 				65E0371818FE6BE200EFA799 /* AppDelegate.h */,
 				65E0371918FE6BE200EFA799 /* AppDelegate.m */,
-				65E0371B18FE6BE200EFA799 /* Main.storyboard */,
-				65BD9C571A2DB45900BD0DC5 /* Launch Screen.xib */,
-				65E0372118FE6BE200EFA799 /* Images.xcassets */,
 				65E0371018FE6BE200EFA799 /* Supporting Files */,
 			);
 			path = Demo;
@@ -200,6 +198,16 @@
 			path = ../../AMWaveTransition;
 			sourceTree = "<group>";
 		};
+		65EBDB8E1BE5030200A13244 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				65E0371B18FE6BE200EFA799 /* Main.storyboard */,
+				65BD9C571A2DB45900BD0DC5 /* Launch Screen.xib */,
+				65E0372118FE6BE200EFA799 /* Images.xcassets */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -218,7 +226,7 @@
 			);
 			name = Demo;
 			productName = Demo;
-			productReference = 65E0370618FE6BE200EFA799 /* Demo.app */;
+			productReference = 65E0370618FE6BE200EFA799 /* WaveTransition.app */;
 			productType = "com.apple.product-type.application";
 		};
 		65E0372618FE6BE200EFA799 /* DemoTests */ = {
@@ -245,7 +253,7 @@
 		65E036FE18FE6BE100EFA799 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Fancy Pixel";
 				TargetAttributes = {
 					65E0372618FE6BE200EFA799 = {
@@ -393,6 +401,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -479,7 +488,8 @@
 				GCC_PREFIX_HEADER = "Demo/Demo-Prefix.pch";
 				INFOPLIST_FILE = "Demo/Demo-Info.plist";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "it.fancypixel.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = WaveTransition;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -494,7 +504,8 @@
 				GCC_PREFIX_HEADER = "Demo/Demo-Prefix.pch";
 				INFOPLIST_FILE = "Demo/Demo-Info.plist";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "it.fancypixel.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = WaveTransition;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -515,6 +526,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "DemoTests/DemoTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "it.fancypixel.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -533,6 +545,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Demo/Demo-Prefix.pch";
 				INFOPLIST_FILE = "DemoTests/DemoTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "it.fancypixel.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
