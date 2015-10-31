@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "65E0370518FE6BE200EFA799"
-               BuildableName = "Demo.app"
+               BuildableName = "WaveTransition.app"
                BlueprintName = "Demo"
                ReferencedContainer = "container:Demo.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "65E0370518FE6BE200EFA799"
-            BuildableName = "Demo.app"
+            BuildableName = "WaveTransition.app"
             BlueprintName = "Demo"
             ReferencedContainer = "container:Demo.xcodeproj">
          </BuildableReference>
@@ -66,7 +66,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "65E0370518FE6BE200EFA799"
-            BuildableName = "Demo.app"
+            BuildableName = "WaveTransition.app"
             BlueprintName = "Demo"
             ReferencedContainer = "container:Demo.xcodeproj">
          </BuildableReference>
@@ -85,7 +85,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "65E0370518FE6BE200EFA799"
-            BuildableName = "Demo.app"
+            BuildableName = "WaveTransition.app"
             BlueprintName = "Demo"
             ReferencedContainer = "container:Demo.xcodeproj">
          </BuildableReference>

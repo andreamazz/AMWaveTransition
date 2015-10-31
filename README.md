@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="640" height="240" src="assets/logo.png"/>
+  <img width="420" height="240" src="assets/logo.png"/>
 </p>
 
 [![Build Status](https://travis-ci.org/andreamazz/AMWaveTransition.png)](https://travis-ci.org/andreamazz/AMWaveTransition)
@@ -10,6 +10,12 @@
 Custom transition between viewcontrollers holding tableviews. Each cell is animated to simulate a 'wave effect'.  
 
 Read more about transitions [here](http://andreamazz.github.io/blog/2014/04/19/transitioning/) and UIKit Dynamics [here](http://andreamazz.github.io/blog/2014/05/22/uikit-dynamics/)
+
+<p align="center">
+  <a href='https://appetize.io/app/r7enynxrtw4740353za6a39d1w' alt='Live demo'>
+    <img width="50" height="60" src="assets/demo.png"/>
+  </a>
+</p>
 
 ###Screenshot 
 
@@ -39,8 +45,7 @@ Implement ```UINavigationControllerDelegate``` and this delegate method:
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
                                   animationControllerForOperation:(UINavigationControllerOperation)operation
                                                fromViewController:(UIViewController*)fromVC
-                                                 toViewController:(UIViewController*)toVC
-{
+                                                 toViewController:(UIViewController*)toVC {
     if (operation != UINavigationControllerOperationNone) {
         // Return your preferred transition operation
         return [AMWaveTransition transitionWithOperation:operation];
@@ -50,22 +55,19 @@ Implement ```UINavigationControllerDelegate``` and this delegate method:
 ```
 Remember to set your instance as the navigation delegate:
 ```objc
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.navigationController setDelegate:self];
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self.navigationController setDelegate:nil];
 }
 ```
 
 Implement th ```AMWaveTransitioning``` protocol by returning your tableview's visible cells:
 ```objc
-- (NSArray*)visibleCells
-{
+- (NSArray*)visibleCells {
     return [self.tableView visibleCells];
 }
 ```
@@ -82,14 +84,12 @@ self.interactive = [[AMWaveTransition alloc] init];
 ```
 Attach the gesture recognizer in your `viewDidAppear:` and detach it in the `viewDidDisappear:`:
 ```objc
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.interactive attachInteractiveGestureToNavigationController:self.navigationController];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self.interactive detachInteractiveGesture];
 }
@@ -100,7 +100,12 @@ If the view controller you are transitioning to has no table view, don't impleme
 As you can see in the sample project, the best results are obtained by setting the view and the cells' background to ```clearColor```, and setting a background color or a background image to the navigation controller.
 
 #Author
-[Andrea Mazzini](https://twitter.com/theandreamazz)
+[Andrea Mazzini](https://twitter.com/theandreamazz). I'm available for freelance work, feel free to contact me. 
+
+Want to support the development of [these free libraries](https://cocoapods.org/owners/734)? Buy me a coffee ☕️ via [Paypal](https://www.paypal.me/andreamazzini).  
+
+#Contributors
+Thanks to [everyone](https://github.com/andreamazz/AMWaveTransition/graphs/contributors) kind enough to submit a pull request. 
 
 #MIT License
 
