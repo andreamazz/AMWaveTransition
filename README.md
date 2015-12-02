@@ -4,6 +4,7 @@
 
 [![Build Status](https://travis-ci.org/andreamazz/AMWaveTransition.png)](https://travis-ci.org/andreamazz/AMWaveTransition)
 [![Cocoapods](https://cocoapod-badges.herokuapp.com/v/AMWaveTransition/badge.png)](http://cocoapods.org/?q=amwavetransition)
+[![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/AMWaveTransition.svg)](http://cocoadocs.org/docsets/AMWaveTransition)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Flattr](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/thing/2977459/andreamazzAMWaveTransition-on-GitHub)
 
