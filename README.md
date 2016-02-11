@@ -3,7 +3,7 @@
 </p>
 
 [![Build Status](https://travis-ci.org/andreamazz/AMWaveTransition.png)](https://travis-ci.org/andreamazz/AMWaveTransition)
-[![Cocoapods](https://cocoapod-badges.herokuapp.com/v/AMWaveTransition/badge.png)](http://cocoapods.org/?q=amwavetransition)
+[![CocoaPods](https://cocoapod-badges.herokuapp.com/v/AMWaveTransition/badge.png)](http://cocoapods.org/?q=amwavetransition)
 [![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/AMWaveTransition.svg)](http://cocoadocs.org/docsets/AMWaveTransition)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
@@ -23,7 +23,7 @@ Read more about transitions [here](http://andreamazz.github.io/blog/2014/04/19/t
 
 #Getting Started
 
-##Install with Cocoapods
+##Install with CocoaPods
 
 * Add ```pod 'AMWaveTransition'``` to your [Podfile](http://cocoapods.org/)
 * Run ```pod install```
