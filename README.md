@@ -24,7 +24,7 @@ Read more about transitions [here](http://andreamazz.github.io/blog/2014/04/19/t
 
 # Getting Started
 
-##Install with CocoaPods
+## Install with CocoaPods
 
 * Add ```pod 'AMWaveTransition'``` to your [Podfile](http://cocoapods.org/)
 * Run ```pod install```
