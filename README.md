@@ -17,28 +17,28 @@ Read more about transitions [here](http://andreamazz.github.io/blog/2014/04/19/t
   </a>
 </p>
 
-###Screenshot 
+### Screenshot
 
 ![AMWaveTransition](https://raw.githubusercontent.com/andreamazz/AMWaveTransition/master/assets/screenshot.gif)
 
-#Getting Started
+# Getting Started
 
-##Install with Cocoapods
+## Install with Cocoapods
 
 * Add ```pod 'AMWaveTransition'``` to your [Podfile](http://cocoapods.org/)
 * Run ```pod install```
 * Run ```open App.xcworkspace```
 
-##Install with Carthage
+## Install with Carthage
 ```
 github "andreamazz/AMWaveTransition"
 ```
 
-##Setup as superclass 
+## Setup as superclass
 
 * Subclass ```AMWaveViewController``` and override ```visibleCells``` or follow these steps:
 
-##Setup manually 
+## Setup manually
 
 Implement ```UINavigationControllerDelegate``` and this delegate method:
 ```objc
@@ -72,7 +72,7 @@ Implement th ```AMWaveTransitioning``` protocol by returning your tableview's vi
 }
 ```
 
-##Interactive gesture 
+## Interactive gesture
 
 To implement the interactive gesture create a new property in your view controller:
 ```objc
@@ -99,19 +99,19 @@ If the view controller you are transitioning to has no table view, don't impleme
 
 As you can see in the sample project, the best results are obtained by setting the view and the cells' background to ```clearColor```, and setting a background color or a background image to the navigation controller.
 
-#Author
-[Andrea Mazzini](https://twitter.com/theandreamazz). I'm available for freelance work, feel free to contact me. 
+# Author
+[Andrea Mazzini](https://twitter.com/theandreamazz). I'm available for freelance work, feel free to contact me.
 
 Want to support the development of [these free libraries](https://cocoapods.org/owners/734)? Buy me a coffee ☕️ via [Paypal](https://www.paypal.me/andreamazzini).  
 
-#Contributors
-Thanks to [everyone](https://github.com/andreamazz/AMWaveTransition/graphs/contributors) kind enough to submit a pull request. 
+# Contributors
+Thanks to [everyone](https://github.com/andreamazz/AMWaveTransition/graphs/contributors) kind enough to submit a pull request.
 
-#MIT License
+# MIT License
 
     The MIT License (MIT)
 
-    Copyright (c) 2015 Andrea Mazzini
+    Copyright (c) 2017 Andrea Mazzini
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of
     this software and associated documentation files (the "Software"), to deal in
