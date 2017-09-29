@@ -12,6 +12,10 @@ Custom transition between viewcontrollers holding tableviews. Each cell is anima
 
 Read more about transitions [here](http://andreamazz.github.io/blog/2014/04/19/transitioning/) and UIKit Dynamics [here](http://andreamazz.github.io/blog/2014/05/22/uikit-dynamics/)
 
+<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/9Jjp1jzKpTgCg7fq5tVzNmnV/andreamazz/AMWaveTransition'>
+  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/9Jjp1jzKpTgCg7fq5tVzNmnV/andreamazz/AMWaveTransition.svg' />
+</a>
+
 <p align="center">
   <a href='https://appetize.io/app/r7enynxrtw4740353za6a39d1w' alt='Live demo'>
     <img width="50" height="60" src="assets/demo.png"/>
