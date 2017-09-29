@@ -9,18 +9,18 @@ All notable changes to this project will be documented in this file.
 
 ## [0.6.2](https://github.com/andreamazz/AMWaveTransition/releases/tag/0.6.2)
 
-###Fixed
+### Fixed
 - Rendering issues    
 
 ## [0.6.1](https://github.com/andreamazz/AMWaveTransition/releases/tag/0.6.1)
 
-###Fixed
+### Fixed
 - Minor fixes  
 - Improved doc 
 
 ## [0.6.0](https://github.com/andreamazz/AMWaveTransition/releases/tag/0.6.0)
 
-###Added
+### Added
 - Carthage support  
 
 ## [0.5.7](https://github.com/andreamazz/AMWaveTransition/releases/tag/0.5.7)
